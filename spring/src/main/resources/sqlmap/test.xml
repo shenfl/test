@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace 命名空间，作用就是对sql进行分类化管理,理解为sql隔离
+ 注意：使用mapper代理方法开发，namespace有特殊重要的作用
+ -->
+<mapper namespace="com.test.mybatis.TestMapper">
+    <!-- 在映射文件中配置很多sql语句 -->
+    <!--需求:通过id查询用户表的记录 -->
+    <!-- 通过select执行数据库查询
+     id:标识映射文件中的sql，称为statement的id
+     将sql语句封装到mappedStatement对象中，所以将id称为statement的id
+     parameterType:指定输入参数的类型
+     #{}标示一个占位符,
+     #{value}其中value表示接收输入参数的名称，如果输入参数是简单类型，那么#{}中的值可以任意。
+
+     resultType：指定sql输出结果的映射的java对象类型，select指定resultType表示将单条记录映射成java对象
+
+     keyProperty指pojo里面的属性
+     -->
+    <select id="find" parameterType="int" resultType="TestDo">
+        SELECT * FROM  test  WHERE uid=#{kk}
+    </select>
+
+    <insert id="insert" parameterType="com.test.mybatis.pojo.TestDo">
+        <selectKey keyProperty="uid" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into test(name) values(#{name});
+    </insert>
+
+
+</mapper>

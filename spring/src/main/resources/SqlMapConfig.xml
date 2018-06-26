@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <properties resource="config.properties">
+        <property name="db.username" value="kk"/>  <!--优先级没有config.properties高-->
+    </properties>
+    <typeAliases>
+        <package name="com.test.mybatis.pojo"/>  <!-- 写这个后TestDo就不用写全路径 -->
+    </typeAliases>
+    <!-- 和spring整合后 environments配置将废除-->
+    <environments default="development">
+        <environment id="development">
+            <!-- 使用jdbc事务管理，事务控制由mybatis-->
+            <transactionManager type="JDBC" />
+            <!-- 数据库连接池,由mybatis管理-->
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.jdbc.Driver" />
+                <property name="url" value="jdbc:mysql://172.17.40.234:3306/canal1?characterEncoding=utf-8" />
+                <property name="username" value="${db.username}" />
+                <property name="password" value="123456" />
+            </dataSource>
+        </environment>
+    </environments>
+
+    <mappers>
+        <mapper resource="sqlmap/test.xml"/>
+        <mapper class="com.test.mybatis.mapper.AccountMapper"/>
+    </mappers>
+
+</configuration>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <properties resource="config.properties">
+        <property name="db.username" value="kk"/>  <!--优先级没有config.properties高-->
+    </properties>
+    <typeAliases>
+        <package name="com.test.mybatis.pojo"/>  <!-- 写这个后TestDo就不用写全路径 -->
+    </typeAliases>
+
+    <mappers>
+        <mapper resource="sqlmap/test.xml"/>
+        <mapper class="com.test.mybatis.mapper.AccountMapper"/>
+    </mappers>
+
+</configuration>

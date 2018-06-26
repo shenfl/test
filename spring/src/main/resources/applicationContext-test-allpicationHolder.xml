@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:ss="http://www.w3.org/2001/XMLSchema-instance"
+       ss:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="applicationContextHolder" class="com.test.spring.ApplicationContextHolder"/>
+    <bean id="testInitSequenceBean" class="com.test.spring.TestInitSequenceBean" init-method="initMethod" destroy-method="dd"/>
+    <bean id="user" class="com.test.spring.User"/>
+    <bean id="student" class="com.test.spring.Student"/>
+
+</beans>

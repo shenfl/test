@@ -19,7 +19,8 @@ public class MyAspectAnno implements Ordered {
     public void after() {
         System.out.println("annotation after");
     }
-    @Pointcut(value = "execution(public void com.test.spring.proxy.UserDaoImpl.save())")
+    // 切面只能织入spring管理的对象，所以||后面的无效
+    @Pointcut(value = "execution(public void com.test.spring.proxy.UserDaoImpl.save()) || execution(public void com.test.spring.aop.Main.staticPoint())")
     private void fn() {} // public private无所谓
 
     @Override

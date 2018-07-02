@@ -19,6 +19,16 @@ public class Main {
 
     @Test
     public void test() {
-        userDao.save();
+        try {
+            userDao.save();
+        } catch (Exception e) {
+            System.out.println("error");
+        }
+        System.out.println("--------------");
+        Main main = new Main();
+        main.staticPoint();
+    }
+    public void staticPoint() {
+        System.out.println("static point");
     }
 }

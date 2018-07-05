@@ -29,8 +29,12 @@ import org.elasticsearch.common.xcontent.XContentFactory;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.index.get.GetField;
 import org.elasticsearch.index.query.*;
+import org.elasticsearch.index.query.functionscore.FunctionScoreQueryBuilder;
+import org.elasticsearch.index.query.functionscore.ScoreFunctionBuilders;
+import org.elasticsearch.index.query.functionscore.ScriptScoreFunctionBuilder;
 import org.elasticsearch.index.reindex.*;
 import org.elasticsearch.script.Script;
+import org.elasticsearch.script.ScriptType;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
@@ -52,7 +56,7 @@ public class TestES {
         Map<String, Integer> addressPortMap = buildAddressPortMap(propsToMap(addr));
 
 
-           for (Map.Entry<String, Integer> entry : addressPortMap.entrySet()) {
+        for (Map.Entry<String, Integer> entry : addressPortMap.entrySet()) {
             try {
                 client.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(entry.getKey()), entry.getValue()));
             } catch (Exception e) {
@@ -85,12 +89,22 @@ public class TestES {
 
 
         // prepareUpdate
-//        UpdateRequestBuilder updateRequestBuilder = client.prepareUpdate();
-//        updateRequestBuilder.setIndex("kks").setType("a").setId("1");
+        UpdateRequestBuilder updateRequestBuilder = client.prepareUpdate();
+        updateRequestBuilder.setIndex("aa").setType("a").setId("1");
 //        updateRequestBuilder.setDoc("{\"dd\": 90}", XContentType.JSON);
 ////        updateRequestBuilder.setVersion(3); // 可以设置version，只有当version等于es中这个文档的version的时候才能成功
 //        UpdateResponse updateResponse1 = updateRequestBuilder.get();
 //        System.out.println(updateResponse1);
+        // test script call times
+        for (int i = 0; i < 100; i++) {
+            Map<String, Object> params = new HashMap<>();
+            params.put("a", i);
+            updateRequestBuilder.setScript(new Script("ctx._source.aa=" + i));
+//            updateRequestBuilder.setScript(new Script(ScriptType.STORED, "painless", "aa", params));
+            UpdateResponse updateResponse = updateRequestBuilder.get();
+            System.out.println(updateResponse);
+        }
+
 
         //
 //        IndexRequestBuilder indexRequestBuilder = client.prepareIndex("cluetest", "clue", "8bfef31e-0c78-11e8-b385-00163e0200fa");
@@ -251,19 +265,17 @@ public class TestES {
 
 
 
-        IndexRequestBuilder indexRequestBuilder = client.prepareIndex("aa", "a", "1");
-        String s = "{\"bb\": 22}";
-        IndexResponse response = indexRequestBuilder.setSource(s, XContentType.JSON).get();
-        System.out.println(response);
-
-
-
-
-        SearchRequestBuilder searchRequestBuilder = client.prepareSearch("aa");
-        TermQueryBuilder termQuery = QueryBuilders.termQuery("aa", 44);
-        SearchResponse response1 = searchRequestBuilder.setQuery(termQuery).setSize(5).get();
-        System.out.println(response1.getHits().getTotalHits());
-        System.out.println(searchRequestBuilder);
+        // test visible
+//        IndexRequestBuilder indexRequestBuilder = client.prepareIndex("aa", "a", "1");
+//        String s = "{\"bb\": 22}";
+//        IndexResponse response = indexRequestBuilder.setSource(s, XContentType.JSON).get();
+//        System.out.println(response);
+//
+//        SearchRequestBuilder searchRequestBuilder = client.prepareSearch("aa");
+//        TermQueryBuilder termQuery = QueryBuilders.termQuery("aa", 44);
+//        SearchResponse response1 = searchRequestBuilder.setQuery(termQuery).setSize(5).get();
+//        System.out.println(response1.getHits().getTotalHits());
+//        System.out.println(searchRequestBuilder);
 
 
 
@@ -313,7 +325,13 @@ public class TestES {
 
 
         // re score
-
+//        Script script = new Script("");
+//        ScriptScoreFunctionBuilder functionBuilder = ScoreFunctionBuilders.scriptFunction(script);
+//        FunctionScoreQueryBuilder functionScoreQueryBuilder = QueryBuilders.functionScoreQuery(functionBuilder);
+//        SearchRequestBuilder searchRequestBuilder = client.prepareSearch("aa");
+//        searchRequestBuilder.setQuery(functionScoreQueryBuilder);
+//        String s = searchRequestBuilder.get().toString();
+//        System.out.println(s);
 
 
         // reindex

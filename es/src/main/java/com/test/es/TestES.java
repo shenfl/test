@@ -84,6 +84,9 @@ public class TestES {
 //        StoredScriptSource source = scriptResponse.getSource();
 //        System.out.println(source); // 当脚本不存在的时候为null
 //        System.out.println(source.toString());
+//        DeleteStoredScriptRequestBuilder scriptRequestBuilder = DeleteStoredScriptAction.INSTANCE.newRequestBuilder(client);
+//        DeleteStoredScriptResponse deleteStoredScriptResponse = scriptRequestBuilder.setId("new_script").get();
+//        System.out.println(deleteStoredScriptResponse.isAcknowledged());
 
 
         //普通的update

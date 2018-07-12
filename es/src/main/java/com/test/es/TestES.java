@@ -1,6 +1,7 @@
 package com.test.es;
 
 import org.elasticsearch.action.DocWriteResponse;
+import org.elasticsearch.action.admin.cluster.storedscripts.*;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequestBuilder;
 import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
 import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsResponse;
@@ -21,6 +22,7 @@ import org.elasticsearch.action.update.UpdateRequestBuilder;
 import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.IndicesAdminClient;
 import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.common.bytes.BytesArray;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.common.unit.TimeValue;
@@ -34,7 +36,9 @@ import org.elasticsearch.index.query.functionscore.ScoreFunctionBuilders;
 import org.elasticsearch.index.query.functionscore.ScriptScoreFunctionBuilder;
 import org.elasticsearch.index.reindex.*;
 import org.elasticsearch.script.Script;
+import org.elasticsearch.script.ScriptService;
 import org.elasticsearch.script.ScriptType;
+import org.elasticsearch.script.StoredScriptSource;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
@@ -65,6 +69,23 @@ public class TestES {
         }
 
         XContentBuilder jsonBuilder = XContentFactory.jsonBuilder();
+
+        // 创建一个script到es中
+//        PutStoredScriptRequestBuilder scriptRequestBuilder = PutStoredScriptAction.INSTANCE.newRequestBuilder(client);
+//        PutStoredScriptResponse scriptResponse = scriptRequestBuilder
+//                .setContent(new BytesArray("{\"script\":{\"lang\": \"painless\",\"code\": \"ctx._source.aa=params.a\"}}"), XContentType.JSON)
+//                .setId("new_script").get();
+//        System.out.println(scriptResponse.toString());
+        //查询一个script
+//        GetStoredScriptRequestBuilder scriptRequestBuilder1 = GetStoredScriptAction.INSTANCE.newRequestBuilder(client);
+//        scriptRequestBuilder1.setId("new_script1");
+//        GetStoredScriptResponse scriptResponse = scriptRequestBuilder1.get();
+//        System.out.println(scriptResponse);
+//        StoredScriptSource source = scriptResponse.getSource();
+//        System.out.println(source); // 当脚本不存在的时候为null
+//        System.out.println(source.toString());
+
+
         //普通的update
 //        UpdateRequest updateRequest = new UpdateRequest();
 //        updateRequest.index("kks").type("a").id("1");
@@ -89,21 +110,23 @@ public class TestES {
 
 
         // prepareUpdate
-        UpdateRequestBuilder updateRequestBuilder = client.prepareUpdate();
-        updateRequestBuilder.setIndex("aa").setType("a").setId("1");
+//        UpdateRequestBuilder updateRequestBuilder = client.prepareUpdate();
+//        updateRequestBuilder.setIndex("aa").setType("a").setId("1");
 //        updateRequestBuilder.setDoc("{\"dd\": 90}", XContentType.JSON);
 ////        updateRequestBuilder.setVersion(3); // 可以设置version，只有当version等于es中这个文档的version的时候才能成功
 //        UpdateResponse updateResponse1 = updateRequestBuilder.get();
 //        System.out.println(updateResponse1);
         // test script call times
-        for (int i = 0; i < 100; i++) {
-            Map<String, Object> params = new HashMap<>();
-            params.put("a", i);
-            updateRequestBuilder.setScript(new Script("ctx._source.aa=" + i));
-//            updateRequestBuilder.setScript(new Script(ScriptType.STORED, "painless", "aa", params));
-            UpdateResponse updateResponse = updateRequestBuilder.get();
-            System.out.println(updateResponse);
-        }
+//        for (int i = 0; i < 100; i++) {
+//            Map<String, Object> params = new HashMap<>();
+//            params.put("a", i);
+//            updateRequestBuilder.setScript(new Script("ctx._source.aa=" + i));
+////            updateRequestBuilder.setScript(new Script(ScriptType.STORED, "painless", "aa", params));
+//            UpdateResponse updateResponse = updateRequestBuilder.get();
+//            System.out.println(updateResponse);
+//        }
+
+
 
 
         //
@@ -266,13 +289,14 @@ public class TestES {
 
 
         // test visible
-//        IndexRequestBuilder indexRequestBuilder = client.prepareIndex("aa", "a", "1");
-//        String s = "{\"bb\": 22}";
+//        IndexRequestBuilder indexRequestBuilder = client.prepareIndex("aa", "a", "13");
+//        String s = "{\"aa\": 13}";
 //        IndexResponse response = indexRequestBuilder.setSource(s, XContentType.JSON).get();
 //        System.out.println(response);
+//        Thread.sleep(5000);
 //
 //        SearchRequestBuilder searchRequestBuilder = client.prepareSearch("aa");
-//        TermQueryBuilder termQuery = QueryBuilders.termQuery("aa", 44);
+//        TermQueryBuilder termQuery = QueryBuilders.termQuery("aa", 13);
 //        SearchResponse response1 = searchRequestBuilder.setQuery(termQuery).setSize(5).get();
 //        System.out.println(response1.getHits().getTotalHits());
 //        System.out.println(searchRequestBuilder);

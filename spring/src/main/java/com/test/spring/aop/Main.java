@@ -27,6 +27,9 @@ public class Main {
         System.out.println("--------------");
         Main main = new Main();
         main.staticPoint();
+
+        System.out.println("------------");
+        userDao.load();
     }
     public void staticPoint() {
         System.out.println("static point");

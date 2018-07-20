@@ -6,4 +6,6 @@ package com.test.spring.proxy;
 public interface UserDao {
 
     void save();
+
+    void load();
 }

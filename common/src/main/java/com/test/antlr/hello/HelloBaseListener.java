@@ -1,4 +1,5 @@
-package com.test.antlr.hello;// Generated from /Users/dasouche1/IdeaProjects/test/common/src/main/resources/Hello.g4 by ANTLR 4.5.1
+// Generated from /Users/dasouche1/IdeaProjects/test/common/src/main/java/com/test/antlr/hello/Hello.g4 by ANTLR 4.5.3
+package com.test.antlr.hello;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;

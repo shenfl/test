@@ -1,7 +1,9 @@
 package com.test.antlr.rows;
 
+import com.test.antlr.calc1.DirectiveListener;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 import java.io.FileInputStream;
 
@@ -12,6 +14,9 @@ public class Rows {
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         RowsParser parser = new RowsParser(tokens, 1);    // pass column number!
         parser.setBuildParseTree(false);    // don't waste time bulding a tree
-        parser.file();
+//        parser.file();
+
+        ParseTreeWalker walker = new ParseTreeWalker();
+        walker.walk(new DirectiveListener(), parser.file());
     }
 }

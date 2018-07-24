@@ -9,7 +9,7 @@ exprs
     : setExpr
     | calcExpr
     ;
-set
+
 setExpr : 'set' agmts ;
 agmts : agmt (';' agmts)? ';'? ;
 agmt : id=ID '=' num=NUMBER ;

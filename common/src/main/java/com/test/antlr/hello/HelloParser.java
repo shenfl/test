@@ -1,4 +1,5 @@
-package com.test.antlr.hello;// Generated from /Users/dasouche1/IdeaProjects/test/common/src/main/resources/Hello.g4 by ANTLR 4.5.1
+// Generated from /Users/dasouche1/IdeaProjects/test/common/src/main/java/com/test/antlr/hello/Hello.g4 by ANTLR 4.5.3
+package com.test.antlr.hello;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class HelloParser extends Parser {
-	static { RuntimeMetaData.checkVersion("4.5.1", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.5.3", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
@@ -86,16 +87,11 @@ public class HelloParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_r; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof HelloListener) ((HelloListener)listener).enterR(this);
+			if ( listener instanceof HelloListener ) ((HelloListener)listener).enterR(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof HelloListener) ((HelloListener)listener).exitR(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof HelloVisitor) return ((HelloVisitor<? extends T>)visitor).visitR(this);
-			else return visitor.visitChildren(this);
+			if ( listener instanceof HelloListener ) ((HelloListener)listener).exitR(this);
 		}
 	}
 

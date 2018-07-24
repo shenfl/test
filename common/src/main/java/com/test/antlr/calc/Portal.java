@@ -5,6 +5,9 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import java.util.Scanner;
 
+/**
+ * https://www.cnblogs.com/naturemickey/p/3764108.html
+ */
 public class Portal {
     private static final String lineStart = "CALC> ";
 

@@ -222,6 +222,8 @@
                     <include>**/*.properties</include>
                     <include>**/*.xml</include>
                     <include>**/*.sandy</include>
+                    <include>**/*.txt</include>
+                    <include>**/*.index</include>
                 </includes>
                 <filtering>false</filtering>
             </resource>

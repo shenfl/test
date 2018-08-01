@@ -25,13 +25,13 @@ public class RedisUtil {
 
     public static void main(String[] args) {
         RedisUtil redisUtil = RedisUtil.getInstance();
-        redisUtil.set("test", "test");
-        LOGGER.info(redisUtil.get("test"));
+        redisUtil.set("shenfl:script", "dd");
+        LOGGER.info(redisUtil.get("shenfl:script"));
     }
 
     private RedisUtil() {
         if (pool == null) {
-            String ip = "10.75.202.11";
+            String ip = "115.29.10.121";
             int port = 6379;
             JedisPoolConfig config = new JedisPoolConfig();
             // 控制一个pool可分配多少个jedis实例，通过pool.getResource()来获取；

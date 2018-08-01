@@ -43,9 +43,15 @@ public class TestRedis {
     public void testAdd() {
 //        template.
         ValueOperations<String, String> operations = template.opsForValue();
-//        operations.set("souche-search:flag", "false");
-        String jjssll = operations.get("souche-search:flag");
-        System.out.println(jjssll);
+        operations.set("souche-search:flag", "false");
+    }
+
+    @Test
+    public void testGet() {
+//        template.
+        ValueOperations<String, String> operations = template.opsForValue();
+        String flag = operations.get("shenfl:atomic");
+        System.out.println(flag);
     }
 
     @Test
@@ -61,16 +67,34 @@ public class TestRedis {
 
     @Test
     public void testAtomic() {
-        AtomicBoolean b = new AtomicBoolean(true);
-//        boolean b1 = b.compareAndSet(false, true);
-        boolean b1 = b.getAndSet(true);
-        System.out.println(b1);
-        System.out.println(b.get());
-
-        AtomicInteger integer = new AtomicInteger(10);
-        boolean b2 = integer.compareAndSet(2, 12);
-        System.out.println(b2);
-        System.out.println(integer.get());
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                ValueOperations<String, String> operations = template.opsForValue();
+                for (int i = 0; i < 10000; i++) {
+                    operations.increment("shenfl:atomic", 1);
+                }
+                System.out.println("over");
+            }
+        });
+        thread.start();
+        Thread thread1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                ValueOperations<String, String> operations = template.opsForValue();
+                for (int i = 0; i < 10000; i++) {
+                    operations.increment("shenfl:atomic", 1);
+                }
+                System.out.println("over");
+            }
+        });
+        thread1.start();
+        try {
+            thread.join();
+            thread1.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 }

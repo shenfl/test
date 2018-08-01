@@ -8,6 +8,8 @@ public class MyCalcVisitor extends CalcBaseVisitor<Double> {
 
     @Override
     public Double visitAgmt(CalcParser.AgmtContext ctx) {
+        System.out.println("Start: " + ctx.getStart().getStartIndex());
+        System.out.println("End: " + ctx.getStart().getStopIndex());
         Context.getInstance().setContext(ctx.id.getText(), ctx.num.getText());
         return null;
     }

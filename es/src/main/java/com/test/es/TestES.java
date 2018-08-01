@@ -1,14 +1,20 @@
 package com.test.es;
 
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import org.elasticsearch.action.DocWriteResponse;
 import org.elasticsearch.action.admin.cluster.storedscripts.*;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequestBuilder;
 import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
 import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsResponse;
 import org.elasticsearch.action.admin.indices.exists.types.TypesExistsResponse;
+import org.elasticsearch.action.admin.indices.flush.FlushAction;
+import org.elasticsearch.action.admin.indices.flush.FlushRequestBuilder;
+import org.elasticsearch.action.admin.indices.flush.FlushResponse;
 import org.elasticsearch.action.bulk.BulkItemResponse;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
 import org.elasticsearch.action.bulk.BulkResponse;
+import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.action.get.GetRequestBuilder;
 import org.elasticsearch.action.get.GetResponse;
@@ -75,7 +81,7 @@ public class TestES {
 //        PutStoredScriptResponse scriptResponse = scriptRequestBuilder
 //                .setContent(new BytesArray("{\"script\":{\"lang\": \"painless\",\"code\": \"ctx._source.aa=params.a\"}}"), XContentType.JSON)
 //                .setId("new_script").get();
-//        System.out.println(scriptResponse.toString());
+//        System.out.println(scriptResponse.isAcknowledged());
         //查询一个script
 //        GetStoredScriptRequestBuilder scriptRequestBuilder1 = GetStoredScriptAction.INSTANCE.newRequestBuilder(client);
 //        scriptRequestBuilder1.setId("new_script1");
@@ -234,77 +240,92 @@ public class TestES {
 
 
 
-        //bulk操作，可以同时操作多个index
+        // bulk操作，可以同时操作多个index
 //        BulkRequestBuilder bulk = client.prepareBulk();
-//        IndexRequestBuilder add = client.prepareIndex("aa", "a", "1");
-//        add.setSource("{\"22\":\"22\"}");
+//        IndexRequestBuilder add = client.prepareIndex("aa", "a", "6");
+//        add.setSource("{\"aa\":\"rar\"}", XContentType.JSON);
 //        bulk.add(add);
 //        add = client.prepareIndex("bb", "BB", "1");
 //        add.setSource("{\"22\":\"22\"}");
 //        bulk.add(add);
-//        UpdateRequestBuilder update = client.prepareUpdate("aa", "a", "1").setDoc("{\"hh\": 99}"); // 这个update不会删除原来老的key
+//        UpdateRequestBuilder update = client.prepareUpdate("aa", "a", "6").setDoc("{\"aa\": \"tar\"}", XContentType.JSON); // 这个update不会删除原来老的key
 //        bulk.add(update);
+//        UpdateRequestBuilder update1 = client.prepareUpdate("aa", "a", "6").setDoc("{\"aa\": \"zip\"}", XContentType.JSON);
+//        bulk.add(update1);
 //        BulkResponse responses = bulk.execute().actionGet();
-//        Iterator<BulkItemResponse> iterator = responses.iterator();
-//        if (iterator.hasNext()) {
-//            BulkItemResponse next = iterator.next();
-//            System.out.println(next.isFailed());
-//            System.out.println(next.getFailureMessage());
+//        BulkItemResponse[] items = responses.getItems();
+//        System.out.println(items.length);
+//        for (BulkItemResponse item : items) {
+//            System.out.println(item.isFailed());
+//            System.out.println(item.getFailureMessage());
+//            System.out.println(item.getId());
+//            System.out.println(item.getVersion());
 //        }
 
 
 
         // 测试bulk的速度
-//        long count = 194355;
-//        while (true) {
+//        long count = 2001;
+//        int batch = 0;
+//        long start = System.currentTimeMillis();
+//        while (batch < 20) {
 //            BulkRequestBuilder bulkRequestBuilder = client.prepareBulk();
-//            for (int i = 0; i < 1; i++) {
-//                IndexRequestBuilder index = client.prepareIndex("test", "it", String.valueOf(count));
+//            for (int i = 0; i < 100; i++) {
+//                IndexRequestBuilder index = client.prepareIndex("sss", "aa", String.valueOf(count));
 //                index.setSource("{\n" +
-//                        "                \"text\": \"hello world\",\n" +
-//                        "                \"age\": " + count + ",\n" +
-//                        "                \"name\": {\n" +
-//                        "                        \"first\": \"jack chen\",\n" +
-//                        "                        \"last\": \"tom\"\n" +
-//                        "                }\n" +
+//                        "                \"id\": " + count + ",\n" +
+//                        "                \"name\": \"上课减肥咖啡了公司看看\"\n" +
 //                        "        }");
 //                bulkRequestBuilder.add(index);
 //                count++;
 //            }
 //            BulkResponse bulkItemResponses = bulkRequestBuilder.execute().actionGet();
 //            System.out.println("one batch");
+//            batch++;
 //        }
+//        System.out.println("Ending: " + (System.currentTimeMillis() - start));
 
 
         // 测试插入速度
+//        long start = System.currentTimeMillis();
 //        IndexRequestBuilder builder = null;
-//        for (int i = 0; i < 1000000000; i++) {
+//        for (int i = 0; i < 2000; i++) {
 //            builder = client.prepareIndex("sss", "aa", String.valueOf(i));
 //            builder.setSource("{\n" +
-//                    "\t\"id\": 1,\n" +
+//                    "\t\"id\": " +i+ ",\n" +
 //                    "\t\"name\": \"上课减肥咖啡了公司看看\"\n" +
 //                    "}", XContentType.JSON);
 //            DocWriteResponse.Result result = builder.get().getResult();
 ////            System.out.println(result.getLowercase());
 //            if (i % 100 == 0) System.out.println(i);
 //        }
+//        System.out.println("Ending: " + (System.currentTimeMillis() - start));
 
 
 
         // test visible
-//        IndexRequestBuilder indexRequestBuilder = client.prepareIndex("aa", "a", "13");
-//        String s = "{\"aa\": 13}";
+//        IndexRequestBuilder indexRequestBuilder = client.prepareIndex("aa", "a", "11");
+//        String s = "{\"aa\": \"xx\"}";
 //        IndexResponse response = indexRequestBuilder.setSource(s, XContentType.JSON).get();
 //        System.out.println(response);
+//        FlushRequestBuilder flushRequestBuilder = FlushAction.INSTANCE.newRequestBuilder(client);
+//        FlushResponse flushResponse = flushRequestBuilder.setIndices("aa").setForce(false).get();
+//        System.out.println(flushResponse.toString());
 //        Thread.sleep(5000);
-//
+
 //        SearchRequestBuilder searchRequestBuilder = client.prepareSearch("aa");
-//        TermQueryBuilder termQuery = QueryBuilders.termQuery("aa", 13);
+//        TermQueryBuilder termQuery = QueryBuilders.termQuery("aa", "ww");
 //        SearchResponse response1 = searchRequestBuilder.setQuery(termQuery).setSize(5).get();
 //        System.out.println(response1.getHits().getTotalHits());
 //        System.out.println(searchRequestBuilder);
-
-
+        // 删除操作的对内存是实时的
+        DeleteResponse deleteResponse = client.prepareDelete("aa", "a", "10").get();
+        System.out.println(deleteResponse);
+        GetRequestBuilder prepareGet = client.prepareGet("aa", "a", "10");
+        GetResponse getResponse = prepareGet.get();
+        System.out.println(getResponse.toString());
+        SearchResponse searchResponse = client.prepareSearch("aa").setQuery(QueryBuilders.termQuery("aa", "xx")).get();
+        System.out.println(searchResponse);
 
 
         // test scroll operation
@@ -400,6 +421,23 @@ public class TestES {
 //            System.out.println(updateResponse.toString());
 //        }
 //        System.out.println("cost: " + (System.currentTimeMillis() - start));
+
+
+
+        // test空数组插入，插入空数组后是查不出来这个字段的
+//        IndexRequestBuilder builder = client.prepareIndex("tetet", "dept", "2");
+//        Map<String, Object> map = new HashMap<>();
+//        map.put("id", 2);
+//        map.put("name", "lu han");
+//        map.put("name1", "du ling");
+//        map.put("student", new ArrayList<>());
+//        String s1 = JSONObject.toJSONString(map, SerializerFeature.WriteMapNullValue);
+//        System.out.println(s1);
+//        IndexResponse response1 = builder.setSource(s1, XContentType.JSON).get();
+//        System.out.println(response1);
+
+
+
 
 
         client.close();

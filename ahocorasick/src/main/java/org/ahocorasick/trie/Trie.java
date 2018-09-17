@@ -11,7 +11,7 @@ import java.util.concurrent.LinkedBlockingDeque;
 
 /**
  * 基于 Aho-Corasick 白皮书, 贝尔实验室: ftp://163.13.200.222/assistant/bearhero/prog/%A8%E4%A5%A6/ac_bm.pdf
- *
+ * http://www.hankcs.com/program/algorithm/implementation-and-analysis-of-aho-corasick-algorithm-in-java.html
  * @author Robert Bor
  */
 public class Trie

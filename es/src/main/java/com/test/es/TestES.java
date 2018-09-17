@@ -107,8 +107,9 @@ public class TestES {
 //        List<String> ids = new ArrayList<>();
 //        ids.add("1");
 //        ids.add("2");
-//        TermsQueryBuilder query = QueryBuilders.termsQuery("_id", ids);
-//        SearchRequestBuilder builder = client.prepareSearch("xiaogu");
+//        TermsQueryBuilder query = QueryBuilders.termsQuery("id", "1");
+//        SearchRequestBuilder builder = client.prepareSearch("aa");
+//        System.out.println(builder.toString());
 //        SearchResponse searchResponse = builder.setQuery(query).get();
 //        SearchHits hits = searchResponse.getHits();
 //        for (SearchHit searchHitFields : hits.getHits()) {
@@ -313,19 +314,19 @@ public class TestES {
 //        System.out.println(flushResponse.toString());
 //        Thread.sleep(5000);
 
-//        SearchRequestBuilder searchRequestBuilder = client.prepareSearch("aa");
-//        TermQueryBuilder termQuery = QueryBuilders.termQuery("aa", "ww");
-//        SearchResponse response1 = searchRequestBuilder.setQuery(termQuery).setSize(5).get();
-//        System.out.println(response1.getHits().getTotalHits());
-//        System.out.println(searchRequestBuilder);
+        SearchRequestBuilder searchRequestBuilder = client.prepareSearch("aa");
+        TermQueryBuilder termQuery = QueryBuilders.termQuery("aa", "ww");
+        SearchResponse response1 = searchRequestBuilder.setQuery(termQuery).setSize(5).setFetchSource(new String[]{"id"}, null).get();
+        System.out.println(response1.getHits().getTotalHits());
+        System.out.println(searchRequestBuilder);
         // 删除操作的对内存是实时的
-        DeleteResponse deleteResponse = client.prepareDelete("aa", "a", "10").get();
-        System.out.println(deleteResponse);
-        GetRequestBuilder prepareGet = client.prepareGet("aa", "a", "10");
-        GetResponse getResponse = prepareGet.get();
-        System.out.println(getResponse.toString());
-        SearchResponse searchResponse = client.prepareSearch("aa").setQuery(QueryBuilders.termQuery("aa", "xx")).get();
-        System.out.println(searchResponse);
+//        DeleteResponse deleteResponse = client.prepareDelete("aa", "a", "10").get();
+//        System.out.println(deleteResponse);
+//        GetRequestBuilder prepareGet = client.prepareGet("aa", "a", "10");
+//        GetResponse getResponse = prepareGet.get();
+//        System.out.println(getResponse.toString());
+//        SearchResponse searchResponse = client.prepareSearch("aa").setQuery(QueryBuilders.termQuery("aa", "xx")).get();
+//        System.out.println(searchResponse);
 
 
         // test scroll operation

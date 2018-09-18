@@ -22,6 +22,7 @@ public class TestAnalyzer {
         while (stream.incrementToken()) {
             System.out.println(termAttribute.toString());
         }
+        stream.close(); // 下一次tokenStream之前需要把上次的流close掉
         stream = analyzer.tokenStream("", "will do");
         stream.reset();
         termAttribute = stream.addAttribute(CharTermAttribute.class);

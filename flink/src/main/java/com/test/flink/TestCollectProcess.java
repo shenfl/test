@@ -63,6 +63,7 @@ public class TestCollectProcess {
             }
             // update keyed state and remember action for next pattern evaluation
             prevActionState.update(action.action);
+            System.out.println("received data: " + action + " : " + this);
         }
 
         @Override
@@ -72,7 +73,7 @@ public class TestCollectProcess {
                     ctx.getBroadcastState(new MapStateDescriptor<>("patterns", Types.VOID, Types.POJO(Pattern.class)));
             // storing in MapState with null as VOID default value
             bcState.put(null, value);
-            System.out.println("new pattern: " + value.toString());
+            System.out.println("new pattern: " + value.toString() + " : " + this);
         }
     }
     static class ActionSource implements SourceFunction<Action> {
@@ -91,6 +92,18 @@ public class TestCollectProcess {
 
             action = new Action(2, "pay");
             ctx.collect(action);
+
+            action = new Action(3, "buy");
+            ctx.collect(action);
+
+            action = new Action(3, "pay");
+            ctx.collect(action);
+
+            action = new Action(4, "buy");
+            ctx.collect(action);
+
+            action = new Action(4, "pay");
+            ctx.collect(action);
         }
 
         @Override
@@ -99,6 +112,10 @@ public class TestCollectProcess {
         }
     }
     static class PatternSource implements SourceFunction<Pattern> {
+
+        public PatternSource() {
+            System.out.println("new instance pattern source");
+        }
 
         @Override
         public void run(SourceContext<Pattern> ctx) throws Exception {

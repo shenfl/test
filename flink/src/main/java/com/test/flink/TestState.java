@@ -23,9 +23,10 @@ public class TestState {
         Configuration conf = new Configuration();
         conf.setString("mykey","myvalue");
         env.getConfig().setGlobalJobParameters(conf);
-        env.fromElements(Tuple2.of(1L, 3L), Tuple2.of(1L, 5L), Tuple2.of(1L, 7L), Tuple2.of(1L, 4L), Tuple2.of(1L, 2L), Tuple2.of(1L, 4L))
+        env.fromElements(Tuple2.of(1L, 3L), Tuple2.of(1L, 5L), Tuple2.of(1L, 7L), Tuple2.of(1L, 4L), Tuple2.of(1L, 2L), Tuple2.of(1L, 4L)
+                            , Tuple2.of(2L, 3L), Tuple2.of(2L, 5L), Tuple2.of(2L, 7L), Tuple2.of(2L, 4L), Tuple2.of(2L, 2L), Tuple2.of(2L, 4L))
                 .keyBy(0)
-                .flatMap(new CountWindowAverage())
+                .flatMap(new CountWindowAverage()).setParallelism(2)
                 .print();
 
         env.execute("test state");
@@ -38,6 +39,7 @@ public class TestState {
 
         @Override
         public void flatMap(Tuple2<Long, Long> input, Collector<Tuple2<Long, Long>> out) throws Exception {
+            System.out.println(sum);
 
             // access the state value
             Tuple2<Long, Long> currentSum = sum.value();

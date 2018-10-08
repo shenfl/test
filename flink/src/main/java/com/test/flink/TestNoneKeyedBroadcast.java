@@ -5,7 +5,6 @@ import org.apache.flink.api.common.state.MapStateDescriptor;
 import org.apache.flink.api.common.typeinfo.Types;
 import org.apache.flink.streaming.api.datastream.BroadcastConnectedStream;
 import org.apache.flink.streaming.api.datastream.BroadcastStream;
-import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.co.BroadcastProcessFunction;
@@ -17,6 +16,7 @@ import java.util.Properties;
 
 /**
  * Created by shenfl on 2018/10/8
+ * 测试非keyed broadcast status以及单例在task manager中的表现
  */
 public class TestNoneKeyedBroadcast {
     public static void main(String[] args) throws Exception {
@@ -36,7 +36,7 @@ public class TestNoneKeyedBroadcast {
         BroadcastStream<String> configStream = env.addSource(new ConfigSource()).broadcast(bcStateDescriptor);
 
         BroadcastConnectedStream<String, String> connect = dataStream.connect(configStream);
-        connect.process(new MyEvaluator()).print();
+        connect.process(new MyEvaluator()).setParallelism(2).print();
         System.out.println(env.getExecutionPlan());
         env.execute("test collect process no keyed");
     }
@@ -62,6 +62,11 @@ public class TestNoneKeyedBroadcast {
     }
     static class MyEvaluator extends BroadcastProcessFunction<String, String, String> {
 
+        public MyEvaluator() {
+            // 这个是在client端执行，所以flink集群中没有这个日志
+            System.out.println("new evaluator instance: " + this + " : " + Person.getINSTANCE());
+        }
+
         @Override
         public void processElement(String value, ReadOnlyContext ctx, Collector<String> out) throws Exception {
             System.out.println("process value: " + value + " : " + this);
@@ -69,7 +74,20 @@ public class TestNoneKeyedBroadcast {
 
         @Override
         public void processBroadcastElement(String value, Context ctx, Collector<String> out) throws Exception {
-            System.out.println("process broadcast value: " + value + " : " + this);
+            System.out.println("process broadcast value: " + value + " : " + this + " : " + Person.getINSTANCE()); // 一个task manager中是同一个单例
+        }
+    }
+    static class Person {
+        static volatile Person INSTANCE;
+        static Person getINSTANCE() {
+            if (INSTANCE == null) {
+                synchronized (Person.class) {
+                    if (INSTANCE == null) {
+                        INSTANCE = new Person();
+                    }
+                }
+            }
+            return INSTANCE;
         }
     }
 }

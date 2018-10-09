@@ -46,6 +46,8 @@ public class TestParser {
         xContentBuilder.field("test1", "value1");
         xContentBuilder.endObject();
         System.out.println(xContentBuilder.bytes().utf8ToString());
+        System.out.println(xContentBuilder.toString());
+
     }
     static class TestStruct {
         public String test;

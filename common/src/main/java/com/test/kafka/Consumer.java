@@ -27,8 +27,8 @@ public class Consumer {
         /* value的序列化类 */
         props.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
         /* 定义分区划分策略 */
-        props.put("client.id", "hello");
-        props.put(ConsumerConfig.PARTITION_ASSIGNMENT_STRATEGY_CONFIG, "com.test.kafka.MyAssignor");
+//        props.put("client.id", "hello");
+//        props.put(ConsumerConfig.PARTITION_ASSIGNMENT_STRATEGY_CONFIG, "com.test.kafka.MyAssignor");
         /* 定义consumer */
         KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props);
 
@@ -54,6 +54,7 @@ public class Consumer {
         consumer.subscribe(list, listener);
 
         int ii = 0;
+        int count = 0;
         while (true) {
             ConsumerRecords<String, String> poll = consumer.poll(1000);
             poll.count();
@@ -80,6 +81,16 @@ public class Consumer {
 
                 System.out.println("-------------");
             }
+            if (count == 10) {
+                // test max.poll.interval.ms 5分钟后超时及恢复的情况
+                System.out.println("start sleep");
+                try {
+                    Thread.sleep(360000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            count++;
 //            Map<TopicPartition, OffsetAndMetadata> map = new HashMap<>();
 //            map.put(new TopicPartition("shenfl", 0), new OffsetAndMetadata(36));
 //            map.put(new TopicPartition("shenfl", 1), new OffsetAndMetadata(46));

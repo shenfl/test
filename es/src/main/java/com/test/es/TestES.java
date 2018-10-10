@@ -11,18 +11,20 @@ import org.elasticsearch.action.admin.indices.exists.types.TypesExistsResponse;
 import org.elasticsearch.action.admin.indices.flush.FlushAction;
 import org.elasticsearch.action.admin.indices.flush.FlushRequestBuilder;
 import org.elasticsearch.action.admin.indices.flush.FlushResponse;
+import org.elasticsearch.action.admin.indices.refresh.RefreshAction;
+import org.elasticsearch.action.admin.indices.refresh.RefreshRequestBuilder;
+import org.elasticsearch.action.admin.indices.refresh.RefreshResponse;
 import org.elasticsearch.action.bulk.BulkItemResponse;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
 import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.delete.DeleteResponse;
-import org.elasticsearch.action.get.GetRequest;
-import org.elasticsearch.action.get.GetRequestBuilder;
-import org.elasticsearch.action.get.GetResponse;
+import org.elasticsearch.action.get.*;
 import org.elasticsearch.action.index.IndexRequestBuilder;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchScrollRequestBuilder;
+import org.elasticsearch.action.support.WriteRequest;
 import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.action.update.UpdateRequestBuilder;
 import org.elasticsearch.action.update.UpdateResponse;
@@ -305,20 +307,29 @@ public class TestES {
 
 
         // test visible
-//        IndexRequestBuilder indexRequestBuilder = client.prepareIndex("aa", "a", "11");
-//        String s = "{\"aa\": \"xx\"}";
-//        IndexResponse response = indexRequestBuilder.setSource(s, XContentType.JSON).get();
-//        System.out.println(response);
-//        FlushRequestBuilder flushRequestBuilder = FlushAction.INSTANCE.newRequestBuilder(client);
-//        FlushResponse flushResponse = flushRequestBuilder.setIndices("aa").setForce(false).get();
+        IndexRequestBuilder indexRequestBuilder = client.prepareIndex("aa", "a", "15");
+        String s = "{\"aa\": \"uue\"}";
+//        IndexResponse response = indexRequestBuilder.setSource(s, XContentType.JSON).setRefreshPolicy(WriteRequest.RefreshPolicy.IMMEDIATE).get();
+        IndexResponse response = indexRequestBuilder.setSource(s, XContentType.JSON).get();
+        System.out.println(response);
+//        RefreshRequestBuilder flushRequestBuilder = RefreshAction.INSTANCE.newRequestBuilder(client);
+//        RefreshResponse flushResponse = flushRequestBuilder.setIndices("aa").get();
 //        System.out.println(flushResponse.toString());
 //        Thread.sleep(5000);
 
-        SearchRequestBuilder searchRequestBuilder = client.prepareSearch("aa");
-        TermQueryBuilder termQuery = QueryBuilders.termQuery("aa", "ww");
-        SearchResponse response1 = searchRequestBuilder.setQuery(termQuery).setSize(5).setFetchSource(new String[]{"id"}, null).get();
-        System.out.println(response1.getHits().getTotalHits());
-        System.out.println(searchRequestBuilder);
+        MultiGetRequestBuilder multiGetRequestBuilder = MultiGetAction.INSTANCE.newRequestBuilder(client);
+        multiGetRequestBuilder.add("aa", "a", "15");
+        MultiGetResponse multiGetItemResponses = multiGetRequestBuilder.get();
+        MultiGetItemResponse[] responses = multiGetItemResponses.getResponses();
+        for (MultiGetItemResponse resp : responses) {
+            System.out.println(resp.getResponse().getSource());
+        }
+
+//        SearchRequestBuilder searchRequestBuilder = client.prepareSearch("aa");
+//        TermQueryBuilder termQuery = QueryBuilders.termQuery("aa", "uue");
+//        SearchResponse response1 = searchRequestBuilder.setQuery(termQuery).setSize(5).setFetchSource(new String[]{"id"}, null).get();
+//        System.out.println(response1.getHits().getTotalHits());
+//        System.out.println(searchRequestBuilder);
         // 删除操作的对内存是实时的
 //        DeleteResponse deleteResponse = client.prepareDelete("aa", "a", "10").get();
 //        System.out.println(deleteResponse);

@@ -18,7 +18,7 @@ import org.apache.flink.util.Collector;
  * Created by shenfl on 2018/9/29
  * https://data-artisans.com/blog/a-practical-guide-to-broadcast-state-in-apache-flink
  */
-public class TestCollectProcess {
+    public class TestCollectProcess {
     public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         DataStreamSource<Action> actionStream = env.addSource(new ActionSource());

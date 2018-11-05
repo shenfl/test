@@ -95,7 +95,7 @@
         <dependency>
             <groupId>com.alibaba.otter</groupId>
             <artifactId>canal.client</artifactId>
-            <version>1.0.25</version>
+            <version>1.1.1</version>
         </dependency>
         <dependency>
             <groupId>io.netty</groupId>
@@ -213,6 +213,11 @@
             <artifactId>leptonica</artifactId>
             <version>${leptonica.version}-${javacpp-presets.version}</version>
             <classifier>linux-ppc64le</classifier>
+        </dependency>
+        <dependency>
+            <groupId>com.lmax</groupId>
+            <artifactId>disruptor</artifactId>
+            <version>3.4.2</version>
         </dependency>
     </dependencies>
 

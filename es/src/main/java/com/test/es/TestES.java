@@ -2,6 +2,7 @@ package com.test.es;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import org.apache.lucene.search.join.ScoreMode;
 import org.elasticsearch.action.DocWriteResponse;
 import org.elasticsearch.action.admin.cluster.storedscripts.*;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequestBuilder;
@@ -274,20 +275,43 @@ public class TestES {
 //        while (batch < 20) {
 //            BulkRequestBuilder bulkRequestBuilder = client.prepareBulk();
 //            for (int i = 0; i < 100; i++) {
-//                IndexRequestBuilder index = client.prepareIndex("sss", "aa", String.valueOf(count));
-//                index.setSource("{\n" +
-//                        "                \"id\": " + count + ",\n" +
-//                        "                \"name\": \"上课减肥咖啡了公司看看\"\n" +
-//                        "        }");
-//                bulkRequestBuilder.add(index);
+////                IndexRequestBuilder index = client.prepareIndex("sss", "aa", String.valueOf(count));
+////                index.setSource("{\n" +
+////                        "                \"id\": " + count + ",\n" +
+////                        "                \"name\": \"上课减肥咖啡了公司看看\"\n" +
+////                        "        }");
+//                UpdateRequestBuilder update = client.prepareUpdate("aa", "a", "1");
+//                update.setDoc("{\"aa\":" + count + "}", XContentType.JSON);
+//                bulkRequestBuilder.add(update);
 //                count++;
 //            }
 //            BulkResponse bulkItemResponses = bulkRequestBuilder.execute().actionGet();
 //            System.out.println("one batch");
 //            batch++;
 //        }
-//        System.out.println("Ending: " + (System.currentTimeMillis() - start));
+////        for (int i = 0; i < 2000; i++) {
+////            UpdateRequestBuilder update = client.prepareUpdate("aa", "a", "1");
+////            update.setDoc("{\"aa\":" + count + "}", XContentType.JSON);
+////            UpdateResponse updateResponse = update.get();
+////            System.out.println("one" + i);
+////            count++;
+////        }
+//        System.out.println(count + "Ending: " + (System.currentTimeMillis() - start));
 
+
+        // test nested
+        BoolQueryBuilder queryBuilder = new BoolQueryBuilder();
+        TermsQueryBuilder termsQuery = QueryBuilders.termsQuery("aa.cc", "22");
+        queryBuilder.must(termsQuery);
+        termsQuery = QueryBuilders.termsQuery("aa.dd", "world");
+        queryBuilder.must(termsQuery);
+        NestedQueryBuilder nestedQueryBuilder = new NestedQueryBuilder("aa", queryBuilder, ScoreMode.None);
+        SearchRequestBuilder search = client.prepareSearch("aa");
+        SearchResponse searchResponse = search.setQuery(nestedQueryBuilder).get();
+        SearchHits hits = searchResponse.getHits();
+        for (SearchHit hit : hits) {
+            System.out.println(hit.getSource());
+        }
 
         // 测试插入速度
 //        long start = System.currentTimeMillis();
@@ -307,23 +331,23 @@ public class TestES {
 
 
         // test visible
-        IndexRequestBuilder indexRequestBuilder = client.prepareIndex("aa", "a", "15");
-        String s = "{\"aa\": \"uue\"}";
-//        IndexResponse response = indexRequestBuilder.setSource(s, XContentType.JSON).setRefreshPolicy(WriteRequest.RefreshPolicy.IMMEDIATE).get();
-        IndexResponse response = indexRequestBuilder.setSource(s, XContentType.JSON).get();
-        System.out.println(response);
-//        RefreshRequestBuilder flushRequestBuilder = RefreshAction.INSTANCE.newRequestBuilder(client);
-//        RefreshResponse flushResponse = flushRequestBuilder.setIndices("aa").get();
-//        System.out.println(flushResponse.toString());
-//        Thread.sleep(5000);
-
-        MultiGetRequestBuilder multiGetRequestBuilder = MultiGetAction.INSTANCE.newRequestBuilder(client);
-        multiGetRequestBuilder.add("aa", "a", "15");
-        MultiGetResponse multiGetItemResponses = multiGetRequestBuilder.get();
-        MultiGetItemResponse[] responses = multiGetItemResponses.getResponses();
-        for (MultiGetItemResponse resp : responses) {
-            System.out.println(resp.getResponse().getSource());
-        }
+//        IndexRequestBuilder indexRequestBuilder = client.prepareIndex("aa", "a", "15");
+//        String s = "{\"aa\": \"uue\"}";
+////        IndexResponse response = indexRequestBuilder.setSource(s, XContentType.JSON).setRefreshPolicy(WriteRequest.RefreshPolicy.IMMEDIATE).get();
+//        IndexResponse response = indexRequestBuilder.setSource(s, XContentType.JSON).get();
+//        System.out.println(response);
+////        RefreshRequestBuilder flushRequestBuilder = RefreshAction.INSTANCE.newRequestBuilder(client);
+////        RefreshResponse flushResponse = flushRequestBuilder.setIndices("aa").get();
+////        System.out.println(flushResponse.toString());
+////        Thread.sleep(5000);
+//
+//        MultiGetRequestBuilder multiGetRequestBuilder = MultiGetAction.INSTANCE.newRequestBuilder(client);
+//        multiGetRequestBuilder.add("aa", "a", "15");
+//        MultiGetResponse multiGetItemResponses = multiGetRequestBuilder.get();
+//        MultiGetItemResponse[] responses = multiGetItemResponses.getResponses();
+//        for (MultiGetItemResponse resp : responses) {
+//            System.out.println(resp.getResponse().getSource());
+//        }
 
 //        SearchRequestBuilder searchRequestBuilder = client.prepareSearch("aa");
 //        TermQueryBuilder termQuery = QueryBuilders.termQuery("aa", "uue");

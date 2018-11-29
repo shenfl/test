@@ -300,18 +300,18 @@ public class TestES {
 
 
         // test nested
-        BoolQueryBuilder queryBuilder = new BoolQueryBuilder();
-        TermsQueryBuilder termsQuery = QueryBuilders.termsQuery("aa.cc", "22");
-        queryBuilder.must(termsQuery);
-        termsQuery = QueryBuilders.termsQuery("aa.dd", "world");
-        queryBuilder.must(termsQuery);
-        NestedQueryBuilder nestedQueryBuilder = new NestedQueryBuilder("aa", queryBuilder, ScoreMode.None);
-        SearchRequestBuilder search = client.prepareSearch("aa");
-        SearchResponse searchResponse = search.setQuery(nestedQueryBuilder).get();
-        SearchHits hits = searchResponse.getHits();
-        for (SearchHit hit : hits) {
-            System.out.println(hit.getSource());
-        }
+//        BoolQueryBuilder queryBuilder = new BoolQueryBuilder();
+//        TermsQueryBuilder termsQuery = QueryBuilders.termsQuery("aa.cc", "22");
+//        queryBuilder.must(termsQuery);
+//        termsQuery = QueryBuilders.termsQuery("aa.dd", "world");
+//        queryBuilder.must(termsQuery);
+//        NestedQueryBuilder nestedQueryBuilder = new NestedQueryBuilder("aa", queryBuilder, ScoreMode.None);
+//        SearchRequestBuilder search = client.prepareSearch("aa");
+//        SearchResponse searchResponse = search.setQuery(nestedQueryBuilder).get();
+//        SearchHits hits = searchResponse.getHits();
+//        for (SearchHit hit : hits) {
+//            System.out.println(hit.getSource());
+//        }
 
         // 测试插入速度
 //        long start = System.currentTimeMillis();
@@ -399,13 +399,14 @@ public class TestES {
 
 
         // update by query
-//        UpdateByQueryRequestBuilder updateByQueryRequestBuilder = UpdateByQueryAction.INSTANCE.newRequestBuilder(client);
-//        Script script = new Script("ctx._source.name=ctx._source.name+'呵呵'"); //  一定要引号引起来
-//        updateByQueryRequestBuilder.source("aaa").script(script)
-//                .filter(QueryBuilders.termQuery("id", 1))
-//                .abortOnVersionConflict(false).get();
-//        System.out.println("over...");
-
+        UpdateByQueryRequestBuilder updateByQueryRequestBuilder = UpdateByQueryAction.INSTANCE.newRequestBuilder(client);
+        Script script = new Script("ctx._source.aa=ctx._source.aa+20"); //  一定要引号引起来
+        updateByQueryRequestBuilder.source("aa").script(script)
+                .filter(QueryBuilders.termQuery("bb", "hello"))
+                .abortOnVersionConflict(false).get();
+        System.out.println("over...");
+        GetRequestBuilder prepareGet = client.prepareGet("aa", "a", "2");
+        System.out.println(prepareGet.get().getSource());
 
 
         // re score

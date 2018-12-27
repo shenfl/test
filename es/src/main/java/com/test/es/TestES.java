@@ -399,14 +399,25 @@ public class TestES {
 
 
         // update by query
-        UpdateByQueryRequestBuilder updateByQueryRequestBuilder = UpdateByQueryAction.INSTANCE.newRequestBuilder(client);
-        Script script = new Script("ctx._source.aa=ctx._source.aa+20"); //  一定要引号引起来
-        updateByQueryRequestBuilder.source("aa").script(script)
-                .filter(QueryBuilders.termQuery("bb", "hello"))
-                .abortOnVersionConflict(false).get();
-        System.out.println("over...");
-        GetRequestBuilder prepareGet = client.prepareGet("aa", "a", "2");
-        System.out.println(prepareGet.get().getSource());
+//        UpdateByQueryRequestBuilder updateByQueryRequestBuilder = UpdateByQueryAction.INSTANCE.newRequestBuilder(client);
+//        Script script = new Script("ctx._source.aa=ctx._source.aa+20"); //  一定要引号引起来
+//        updateByQueryRequestBuilder.source("aa").script(script)
+//                .filter(QueryBuilders.termQuery("bb", "hello"))
+//                .abortOnVersionConflict(false).get();
+//        System.out.println("over...");
+//        GetRequestBuilder prepareGet = client.prepareGet("aa", "a", "2");
+//        System.out.println(prepareGet.get().getSource());
+
+
+        // router
+        IndexRequestBuilder prepareIndex = client.prepareIndex("aa", "a", "2");
+        prepareIndex.setRouting("second");
+        prepareIndex.setSource("{\"aa\": \"a2\"}", XContentType.JSON);
+        prepareIndex.get();
+        SearchRequestBuilder requestBuilder = client.prepareSearch("aa").setRouting("second");
+        requestBuilder.setQuery(QueryBuilders.termQuery("aa", "a2"));
+        SearchResponse searchResponse = requestBuilder.get();
+        System.out.println(searchResponse.getHits().totalHits);
 
 
         // re score

@@ -1,6 +1,5 @@
 package com.test.antlr.rows;
 
-import com.test.antlr.calc1.DirectiveListener;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
@@ -9,7 +8,7 @@ import java.io.FileInputStream;
 
 public class Rows {
     public static void main(String[] args) throws Exception {
-        ANTLRInputStream input = new ANTLRInputStream(new FileInputStream("/Users/dasouche1/IdeaProjects/test/common/src/main/java/com/test/antlr/rows/file.txt"));
+        ANTLRInputStream input = new ANTLRInputStream(new FileInputStream("/Users/shenfl/IdeaProjects/test/common/src/main/java/com/test/antlr/rows/file.txt"));
         RowsLexer lexer = new RowsLexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         RowsParser parser = new RowsParser(tokens, 1);    // pass column number!
@@ -17,6 +16,6 @@ public class Rows {
 //        parser.file();
 
         ParseTreeWalker walker = new ParseTreeWalker();
-        walker.walk(new DirectiveListener(), parser.file());
+        walker.walk(new RowsBaseListener(), parser.file());
     }
 }

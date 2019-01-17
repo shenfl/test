@@ -1,4 +1,5 @@
-grammar IData;
+grammar IData; // run: com.test.antlr.idata.IData file -tree /Users/shenfl/IdeaProjects/test/common/src/main/java/com/test/antlr/idata/idata.txt
+
 
 file : group+ ;
 

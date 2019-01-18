@@ -1,4 +1,4 @@
-lexer grammar XML;
+lexer grammar XML; // org.antlr.v4.gui:com.test.antlr.xml.XML tokens -tokens /Users/shenfl/IdeaProjects/test/common/src/main/java/com/test/antlr/xml/t.xml
 
 // Default "mode": Everything OUTSIDE of a tag
 OPEN        :   '<'                 -> pushMode(INSIDE) ;

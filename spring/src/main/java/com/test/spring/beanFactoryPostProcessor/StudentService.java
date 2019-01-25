@@ -9,6 +9,7 @@ public class StudentService {
     }
 
     public void setName(String name) {
+        System.out.println("set: " + name);
         this.name = name;
     }
 

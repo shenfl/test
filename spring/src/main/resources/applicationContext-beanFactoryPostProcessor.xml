@@ -19,7 +19,7 @@
         <property name="age" value="10"/>
     </bean>
 
-    <bean class="com.test.spring.beanFactoryPostProcessor.BeanFactoryPostProcessor1"/>
-    <bean class="com.test.spring.beanFactoryPostProcessor.BeanFactoryPostProcessor2"/>
+    <!--<bean class="com.test.spring.beanFactoryPostProcessor.BeanFactoryPostProcessor1"/>-->
+    <!--<bean class="com.test.spring.beanFactoryPostProcessor.BeanFactoryPostProcessor2"/>-->
 
 </beans>

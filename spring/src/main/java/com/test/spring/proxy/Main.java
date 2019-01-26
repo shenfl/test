@@ -11,5 +11,6 @@ public class Main {
 
         UserDaoImpl proxy1 = CglibProxyUtil.getProxy(UserDaoImpl.class);
         proxy1.save();
+        proxy1.load();
     }
 }

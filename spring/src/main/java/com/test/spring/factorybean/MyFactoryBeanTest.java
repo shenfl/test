@@ -29,5 +29,7 @@ public class MyFactoryBeanTest {
         HelloWorldService helloWorldService = (HelloWorldService) context.getBean("factoryBean");
         helloWorldService.getBeanName();
         helloWorldService.sayHello();
+        Object bean = context.getBean("&factoryBean"); // 拿到原始的factoryBean
+        System.out.println(bean);
     }
 }

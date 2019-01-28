@@ -18,7 +18,7 @@ public class CglibProxyUtil {
             @Override
             public Object intercept(Object o, Method method, Object[] objects, MethodProxy methodProxy) throws Throwable {
                 System.out.println("cglib proxy before");
-                Object res = methodProxy.invokeSuper(o, objects);
+                Object res = methodProxy.invokeSuper(o, objects);//如果是代理接口，则不能调这个方法
                 System.out.println("cglib proxy after");
                 return res;
             }

@@ -23,4 +23,21 @@ public class JdkProxyUtil {
         return result;
     }
 
+    /**
+     * java代理可以只代理一个接口，不需要实现类，这样像mybatis的mapper用它来执行sql就行了
+     * @param args args
+     */
+    public static void main(String[] args) {
+        Class[] clazz = new Class[]{UserDao.class};
+        UserDao userDao = (UserDao) Proxy.newProxyInstance(JdkProxyUtil.class.getClassLoader(), clazz, new InvocationHandler() {
+            @Override
+            public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+                System.out.println("he");
+                System.out.println("ha");
+                return null;
+            }
+        });
+        userDao.save();
+    }
+
 }

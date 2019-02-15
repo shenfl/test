@@ -1,4 +1,4 @@
-// Generated from /Users/dasouche1/IdeaProjects/test/common/src/main/java/com/test/antlr/hello/Hello.g4 by ANTLR 4.5.3
+// Generated from /Users/shenfl/IdeaProjects/test/common/src/main/java/com/test/antlr/hello/Hello.g4 by ANTLR 4.5.3
 package com.test.antlr.hello;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -81,6 +81,7 @@ public class HelloParser extends Parser {
 	}
 	public static class RContext extends ParserRuleContext {
 		public TerminalNode ID() { return getToken(HelloParser.ID, 0); }
+		public TerminalNode EOF() { return getToken(HelloParser.EOF, 0); }
 		public RContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -105,6 +106,8 @@ public class HelloParser extends Parser {
 			match(T__0);
 			setState(3);
 			match(ID);
+			setState(4);
+			match(EOF);
 			}
 		}
 		catch (RecognitionException re) {
@@ -119,9 +122,9 @@ public class HelloParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\5\b\4\2\t\2\3\2\3"+
-		"\2\3\2\3\2\2\2\3\2\2\2\6\2\4\3\2\2\2\4\5\7\3\2\2\5\6\7\4\2\2\6\3\3\2\2"+
-		"\2\2";
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\5\t\4\2\t\2\3\2\3"+
+		"\2\3\2\3\2\3\2\2\2\3\2\2\2\7\2\4\3\2\2\2\4\5\7\3\2\2\5\6\7\4\2\2\6\7\7"+
+		"\2\2\3\7\3\3\2\2\2\2";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

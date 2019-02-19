@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--详见https://www.cnblogs.com/yjmyzz/p/how-to-load-remote-config-in-spring.html-->
+    <bean id="propertyPlaceholderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="properties">
+            <bean id="remoteProperties" class="com.test.spring.propertyRegistry.RemoteProperties" p:url="http://172.21.12*.**/config/dev/application.properties"/>
+        </property>
+    </bean>
+    <bean id="carEditor" class="com.test.spring.propertyRegistry.CustomCarEditor"/>
+    <bean class="org.springframework.beans.factory.config.CustomEditorConfigurer">
+        <property name="propertyEditorRegistrars">
+            <list>
+                <ref bean="carEditor" />
+            </list>
+        </property>
+    </bean>
+    <bean id="boss" class="com.test.spring.propertyRegistry.Boss">
+        <property name="name" value="${url}"/>
+        <!--③该属性将使用②处的属性编辑器完成属性填充操作-->
+        <property name="car" value="红旗CA72,200,20000.00"/>
+    </bean>
+
+</beans>

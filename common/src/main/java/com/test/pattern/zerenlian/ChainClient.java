@@ -11,24 +11,26 @@ public class ChainClient {
         List<ChainHandler> list = Arrays.asList(new ChainHandlerA(),
                 new ChainHandlerB(), new ChainHandlerC());
         Chain chain = new Chain(list);
-        chain.proceed();
+        chain.proceed("jack");
+        chain.reset();
+        chain.proceed("tom");
     }
     static class ChainHandlerA extends ChainHandler {
         @Override
-        void handlerProcess() {
-            System.out.println("chain A");
+        void handlerProcess(String data) {
+            System.out.println("chain A: " + data);
         }
     }
     static class ChainHandlerB extends ChainHandler {
         @Override
-        void handlerProcess() {
-            System.out.println("chain B");
+        void handlerProcess(String data) {
+            System.out.println("chain B: " + data);
         }
     }
     static class ChainHandlerC extends ChainHandler {
         @Override
-        void handlerProcess() {
-            System.out.println("chain C");
+        void handlerProcess(String data) {
+            System.out.println("chain C: " + data);
         }
     }
 }

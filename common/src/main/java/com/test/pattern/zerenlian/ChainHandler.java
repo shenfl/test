@@ -5,10 +5,10 @@ package com.test.pattern.zerenlian;
  */
 public abstract class ChainHandler {
 
-    public void execute(Chain chain) {
-        handlerProcess();
-        chain.proceed();
+    public void execute(Chain chain, String data) {
+        handlerProcess(data);
+        chain.proceed(data);
     }
 
-    abstract void handlerProcess();
+    abstract void handlerProcess(String data);
 }

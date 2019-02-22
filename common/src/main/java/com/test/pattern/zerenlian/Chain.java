@@ -14,9 +14,13 @@ public class Chain {
         this.handlers = handlers;
     }
 
-    public void proceed() {
+    public void proceed(String data) {
         if (index >= handlers.size()) return;
-        handlers.get(index++).execute(this);
+        handlers.get(index++).execute(this, data);
+    }
+
+    public void reset() {
+        index = 0;
     }
 
 }

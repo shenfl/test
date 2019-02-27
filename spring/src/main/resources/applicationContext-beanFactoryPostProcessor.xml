@@ -18,6 +18,8 @@
         <property name="name" value="${student.name}"/>
         <property name="age" value="10"/>
     </bean>
+    <bean id="child" class="com.test.spring.bean.Child"/>
+    <bean class="com.test.spring.beanFactoryPostProcessor.BeanPostProcessorTest"/>
 
     <!--<bean class="com.test.spring.beanFactoryPostProcessor.BeanFactoryPostProcessor1"/>-->
     <!--<bean class="com.test.spring.beanFactoryPostProcessor.BeanFactoryPostProcessor2"/>-->

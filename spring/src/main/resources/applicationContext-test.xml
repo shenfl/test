@@ -27,4 +27,12 @@
         <property name="password" value="zhangsan123"></property>
     </bean>
 
+    <bean id="parent" class="com.test.spring.bean.Parent">
+        <property name="name" value="ouyangfeng"/>
+    </bean>
+    <!--下面的parent表示这个child的bean的父亲是id=parent的这个类-->
+    <bean id="child" class="com.test.spring.bean.Child" parent="parent">
+        <property name="age" value="18"/>
+    </bean>
+
 </beans>

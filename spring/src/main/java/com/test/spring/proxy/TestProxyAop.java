@@ -1,4 +1,4 @@
-package com.test.spring;
+package com.test.spring.proxy;
 
 import org.junit.Test;
 import org.springframework.aop.MethodBeforeAdvice;
@@ -11,16 +11,16 @@ import static org.junit.Assert.assertTrue;
 public class TestProxyAop {
     @Test
     public void test() {
-//        ProxyFactory factory = new ProxyFactory(new House());
-//        factory.addInterface(Construction.class);
-//        factory.addAdvice(new BeforeConstructAdvice());
-//        factory.setExposeProxy(true);
-//
-//        Construction construction = (Construction) factory.getProxy();
-//        construction.construct();
-//        assertTrue("Construction is illegal. "
-//                + "Supervisor didn't give a permission to build "
-//                + "the house", construction.isPermitted());
+        ProxyFactory factory = new ProxyFactory(new House());
+        factory.addInterface(Construction.class);
+        factory.addAdvice(new BeforeConstructAdvice());
+        factory.setExposeProxy(true);
+
+        Construction construction = (Construction) factory.getProxy();
+        construction.construct();
+        assertTrue("Construction is illegal. "
+                + "Supervisor didn't give a permission to build "
+                + "the house", construction.isPermitted());
 
         String[] split = "canal1.test".split("\\.");
         System.out.println(split[0]);

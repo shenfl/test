@@ -1,8 +1,8 @@
-package com.test.spring;
+package com.test.spring.bean;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 public class TestPrototype {
     @Test

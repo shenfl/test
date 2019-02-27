@@ -1,5 +1,8 @@
-package com.test.spring;
+package com.test.spring.bean;
 
+import com.test.spring.Student;
+import com.test.spring.User;
+import com.test.spring.Welcomer;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.BeanFactory;

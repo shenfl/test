@@ -11,5 +11,11 @@ public class Main {
         ApplicationContext applicationContext = new ClassPathXmlApplicationContext("applicationContext-test.xml");
         Object child = applicationContext.getBean("child");
         System.out.println(child);
+        Object c = applicationContext.getBean("c");
+        System.out.println(c == child);
+        Object cc = applicationContext.getBean("cc");
+        System.out.println(cc == c);
+        Object ccc = applicationContext.getBean("cc");
+        System.out.println(ccc == c);
     }
 }

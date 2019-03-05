@@ -22,7 +22,9 @@ class H2EMapper extends Mapper<LongWritable, Text, NullWritable, Text> {
     @Override
     protected void map(LongWritable key, Text value, Context context)
             throws IOException, InterruptedException {
-        context.write(NullWritable.get(), value);
+        String s = value.toString();
+        s = s.substring(s.indexOf("{"));
+        context.write(NullWritable.get(), new Text(s));
     }
 
     @Override

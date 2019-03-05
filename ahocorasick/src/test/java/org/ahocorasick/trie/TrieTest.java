@@ -2,15 +2,28 @@ package org.ahocorasick.trie;
 
 import org.junit.Test;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.*;
 
 import static junit.framework.Assert.assertEquals;
 
 public class TrieTest
 {
+
+    @Test
+    public void testAnalysis() throws IOException {
+        Trie trie = new Trie(false);
+        InputStream inputStream = new FileInputStream("/Users/shenfl/IdeaProjects/test/ahocorasick/src/test/resource/ext.dic");
+        BufferedReader br = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
+        String s;
+        while ((s = br.readLine()) != null) {
+            trie.addKeyword(s);
+        }
+        Collection<Emit> emits = trie.parseText("科宝来旺");
+        for (Emit emit : emits) {
+            System.out.println(emit.getKeyword());
+        }
+    }
 
     @Test
     public void keywordAndTextAreTheSame()

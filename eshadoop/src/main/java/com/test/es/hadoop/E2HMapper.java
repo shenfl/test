@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-public class E2HMapper extends Mapper<Text, LinkedMapWritable, Text, LinkedMapWritable> {
+public class E2HMapper extends Mapper<Text, Text, Text, Text> {
 
     private static final Logger LOG = LoggerFactory.getLogger(E2HMapper.class);
 
@@ -18,7 +18,7 @@ public class E2HMapper extends Mapper<Text, LinkedMapWritable, Text, LinkedMapWr
     }
 
     @Override
-    protected void map(Text key, LinkedMapWritable value, Context context)
+    protected void map(Text key, Text value, Context context)
             throws IOException, InterruptedException {
         LOG.info("key {} value {}", key, value);
         context.write(key, value);

@@ -8,6 +8,9 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.elasticsearch.hadoop.mr.EsInputFormat;
 import org.elasticsearch.hadoop.mr.LinkedMapWritable;
 
+/**
+ * https://blog.csdn.net/hellozhxy/article/details/80834695
+ */
 public class Main {
     public static void main(String[] args) {
         try {
@@ -18,6 +21,7 @@ public class Main {
             conf.set("es.nodes", "172.17.40.233");
             conf.set("es.port", "9200");
             conf.set("es.http.timeout","100m");
+            conf.set ( "es.output.json" , "true" ); // 设置后会打成json格式，有引号，源博客写法没有引号
             //ElaticSearch Index/Type
             conf.set("es.resource", args[0]); // tangex-clue-test1/sell_chance
 
@@ -30,7 +34,7 @@ public class Main {
             job.setInputFormatClass(EsInputFormat.class);
             job.setMapperClass(E2HMapper.class);
             job.setMapOutputKeyClass(Text.class);
-            job.setMapOutputValueClass(LinkedMapWritable.class);
+            job.setMapOutputValueClass(Text.class);
 
             FileOutputFormat.setOutputPath(job, new Path(args[1]));
 

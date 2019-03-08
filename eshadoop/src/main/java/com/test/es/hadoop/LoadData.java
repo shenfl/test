@@ -15,6 +15,7 @@ import java.io.IOException;
  * https://github.com/sunnywalden/es-hadoop-data-share
  * /usr/hdp/2.6.2.0-205/hadoop/bin/yarn jar es-hadoop-1.0-SNAPSHOT.jar test_float1/test_float  hdfs://hadoop-3:8020/tmp/ngsearch5
  * /usr/hdp/2.6.2.0-205/hadoop/bin/yarn jar es-hadoop-1.0-SNAPSHOT.jar   hdfs://hadoop-3:8020/tmp/ngsearch5
+ * yarn jar es-hadoop-1.0-SNAPSHOT.jar com.test.es.yarn.Client -jar_path /home/souche/projects/es-hadoop-1.0-SNAPSHOT.jar -jar_path_in_hdfs hdfs://hadoop-3:8020/tmp/es-hadoop-1.0-SNAPSHOT.jar -appname DemoApp -master_memory 128 -container_memory 256 -num_containers 3 -memory_overhead 256 -queue default -shell_args "abc 123"
  */
 public class LoadData {
     public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {

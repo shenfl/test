@@ -16,6 +16,7 @@ import java.io.IOException;
  * /usr/hdp/2.6.2.0-205/hadoop/bin/yarn jar es-hadoop-1.0-SNAPSHOT.jar test_float1/test_float  hdfs://hadoop-3:8020/tmp/ngsearch5
  * /usr/hdp/2.6.2.0-205/hadoop/bin/yarn jar es-hadoop-1.0-SNAPSHOT.jar   hdfs://hadoop-3:8020/tmp/ngsearch5
  * yarn jar es-hadoop-1.0-SNAPSHOT.jar com.test.es.yarn.Client -jar_path /home/souche/projects/es-hadoop-1.0-SNAPSHOT.jar -jar_path_in_hdfs hdfs://hadoop-3:8020/tmp/es-hadoop-1.0-SNAPSHOT.jar -appname DemoApp -master_memory 128 -container_memory 256 -num_containers 3 -memory_overhead 256 -queue default -shell_args "abc 123"
+ * /usr/jdk64/jdk1.8.0_112/bin/java -Xms256m -Xmx256m -Djava.io.tmpdir=/hadoop/yarn/local/usercache/souche/appcache/application_1548087621091_0062/container_e148_1548087621091_0062_01_000002/tmp com.test.es.yarn.SampleExecutor abc 123
  */
 public class LoadData {
     public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {

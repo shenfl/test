@@ -272,6 +272,8 @@ public class ApplicationMaster {
          19/03/08 15:20:22 INFO yarn.Client: Got application report from ASM for, appId=62, clientToAMToken=null, appDiagnostics=AM container is launched, waiting for AM container to Register with RM, appMasterHost=N/A, appQueue=default, appMasterRpcPort=-1, appStartTime=1552029612092, yarnAppState=ACCEPTED, distributedFinalState=UNDEFINED, appTrackingUrl=http://hadoop-3:8088/proxy/application_1548087621091_0062/, appUser=souche
          19/03/08 15:20:27 INFO yarn.Client: Got application report from ASM for, appId=62, clientToAMToken=null, appDiagnostics=, appMasterHost=hadoop-1.scsite.net/172.17.40.240, appQueue=default, appMasterRpcPort=-1, appStartTime=1552029612092, yarnAppState=RUNNING, distributedFinalState=UNDEFINED, appTrackingUrl=http://hadoop-3:8088/proxy/application_1548087621091_0062/, appUser=souche
          19/03/08 15:20:32 INFO yarn.Client: Got application report from ASM for, appId=62, clientToAMToken=null, appDiagnostics=, appMasterHost=hadoop-1.scsite.net/172.17.40.240, appQueue=default, appMasterRpcPort=-1, appStartTime=1552029612092, yarnAppState=RUNNING, distributedFinalState=UNDEFINED, appTrackingUrl=http://hadoop-3:8088/proxy/application_1548087621091_0062/, appUser=souche
+
+         Completed setting up app master command {{JAVA_HOME}}/bin/java -Xmx128m com.test.es.yarn.ApplicationMaster --container_memory 256 --container_vcores 1 --memory_overhead 256 --num_containers 3 --priority 0 1><LOG_DIR>/AppMaster.stdout 2><LOG_DIR>/AppMaster.stderr
          */
         conf.set("yarn.client.failover-proxy-provider", "org.apache.hadoop.yarn.client.ConfiguredRMFailoverProxyProvider");
     }

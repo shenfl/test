@@ -56,7 +56,7 @@
                         <configuration>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>com.test.es.yarn.Client</mainClass>
+                                    <mainClass>com.test.es.hadoop.InverIndexStepTwo</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>

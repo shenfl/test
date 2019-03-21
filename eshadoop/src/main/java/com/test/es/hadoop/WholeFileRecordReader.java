@@ -35,6 +35,7 @@ class WholeFileRecordReader extends RecordReader<NullWritable, BytesWritable> {
             throws IOException, InterruptedException {
         this.fileSplit = (FileSplit) split;
         this.conf = context.getConfiguration();
+        System.out.println("whole record reader " + fileSplit.toString());
     }
 
     @Override

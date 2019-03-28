@@ -410,14 +410,24 @@ public class TestES {
 
 
         // router
-        IndexRequestBuilder prepareIndex = client.prepareIndex("aa", "a", "2");
-        prepareIndex.setRouting("second");
-        prepareIndex.setSource("{\"aa\": \"a2\"}", XContentType.JSON);
-        prepareIndex.get();
-        SearchRequestBuilder requestBuilder = client.prepareSearch("aa").setRouting("second");
-        requestBuilder.setQuery(QueryBuilders.termQuery("aa", "a2"));
-        SearchResponse searchResponse = requestBuilder.get();
-        System.out.println(searchResponse.getHits().totalHits);
+//        IndexRequestBuilder prepareIndex = client.prepareIndex("aa", "a", "2");
+//        prepareIndex.setRouting("second");
+//        prepareIndex.setSource("{\"aa\": \"a2\"}", XContentType.JSON);
+//        prepareIndex.get();
+//        SearchRequestBuilder requestBuilder = client.prepareSearch("aa").setRouting("second");
+//        requestBuilder.setQuery(QueryBuilders.termQuery("aa", "a2"));
+//        SearchResponse searchResponse = requestBuilder.get();
+//        System.out.println(searchResponse.getHits().totalHits);
+
+
+        // delete by query
+        DeleteByQueryRequestBuilder delete = DeleteByQueryAction.INSTANCE.newRequestBuilder(client);
+        delete.source("aa");
+        delete.abortOnVersionConflict(false);
+        RangeQueryBuilder rangeQuery = QueryBuilders.rangeQuery("aa");
+        rangeQuery.lt(50);
+        delete.filter(rangeQuery);
+        delete.get();
 
 
         // re score

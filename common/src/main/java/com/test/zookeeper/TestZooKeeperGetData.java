@@ -15,6 +15,8 @@ import static org.apache.zookeeper.Watcher.Event.KeeperState.SyncConnected;
 /**
  * Created by shenfl on 2018/6/20
  * https://blog.csdn.net/lipeng_bigdata/article/details/50985811
+ * 当节点watch为true，但是并没有给watcher对象时，使用的是创建zookeeper时的watcher
+ * watch回调是单线程的。child1和child2都修改了，但是process方法中耗时很大，导致其他的watcher没法执行
  */
 public class TestZooKeeperGetData {
 
@@ -38,8 +40,16 @@ public class TestZooKeeperGetData {
                 // 监控所有被触发的事件
                 public void process(WatchedEvent event) {
                     System.out.println("已经触发了" + event.getType() + "事件！");
-                    if (event.getType() == Event.EventType.None || event.getState() == SyncConnected) {
+                    if (event.getType() == Event.EventType.None) {
                         countDownLatch.countDown();
+                    } else {
+                        System.out.println("in");
+                        try {
+                            Thread.sleep(10000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        System.out.println("over");
                     }
                 }
             });
@@ -57,9 +67,9 @@ public class TestZooKeeperGetData {
             // 节点内容为字符串"我是根目录/tmp_root_path"
             // 创建模式为CreateMode.PERSISTENT
             System.out.println("开始创建根目录节点/tmp_root_path...");
-            zk.create("/tmp_root_path", "我是根目录/tmp_root_path".getBytes(),
+            String s = zk.create("/tmp_root_path", "我是根目录/tmp_root_path".getBytes(),
                     Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
-            System.out.println("根目录节点/tmp_root_path创建成功！");
+            System.out.println("根目录节点/tmp_root_path创建成功！" + s); // s就是/tmp_root_path
 
             Thread.currentThread().sleep(1000l);
 
@@ -77,13 +87,6 @@ public class TestZooKeeperGetData {
                     "我是第一个子目录/tmp_root_path/childPath1".getBytes(),
                     Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
             System.out.println("第一个子目录节点/tmp_root_path/childPath1创建成功！");
-
-            Thread.currentThread().sleep(1000l);
-
-            System.out.println("...");
-            System.out.println("...");
-            System.out.println("...");
-            System.out.println("...");
 
             Thread.currentThread().sleep(1000l);
 
@@ -112,6 +115,7 @@ public class TestZooKeeperGetData {
             // 获取第二个子目录节点/tmp_root_path/childPath2节点数据
             System.out.println("开始获取第二个子目录节点/tmp_root_path/childPath2节点数据...");
             System.out.println(new String(zk.getData("/tmp_root_path/childPath2", true, null)));
+            System.out.println(new String(zk.getData("/tmp_root_path/childPath1", true, null)));
             System.out.println("第二个子目录节点/tmp_root_path/childPath2节点数据获取成功！");
 
             Thread.currentThread().sleep(1000l);
@@ -182,6 +186,7 @@ public class TestZooKeeperGetData {
             System.out.println("...");
             System.out.println("...");
             System.out.println("...");
+            Thread.sleep(20000);
 
         } catch (IOException | KeeperException | InterruptedException e) {
             // TODO Auto-generated catch block

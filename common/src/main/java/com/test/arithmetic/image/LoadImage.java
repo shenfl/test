@@ -9,9 +9,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import static org.bytedeco.javacpp.opencv_imgcodecs.CV_LOAD_IMAGE_ANYCOLOR;
-import static org.bytedeco.javacpp.opencv_imgcodecs.CV_LOAD_IMAGE_ANYDEPTH;
-import static org.bytedeco.javacpp.opencv_imgcodecs.imdecode;
+import static org.bytedeco.javacpp.opencv_imgcodecs.*;
 import static org.bytedeco.javacpp.opencv_imgproc.resize;
 
 /**
@@ -20,10 +18,10 @@ import static org.bytedeco.javacpp.opencv_imgproc.resize;
  */
 public class LoadImage {
     public static void main(String[] args) throws IOException {
-        InputStream is = new FileInputStream("/Users/dasouche1/IdeaProjects/dl4j-examples/dl4j-examples/target/classes/DataExamples/ImagePipeline/labelC/image_0416.jpg");
+        InputStream is = new FileInputStream("/Users/shenfl/IdeaProjects/test/common/src/main/resources/aaa.jpeg");
         byte[] bytes = IOUtils.toByteArray(is);
 
-        opencv_core.Mat image = imdecode(new opencv_core.Mat(bytes), CV_LOAD_IMAGE_ANYDEPTH | CV_LOAD_IMAGE_ANYCOLOR);
+        opencv_core.Mat image = imdecode(new opencv_core.Mat(bytes), IMREAD_ANYDEPTH | IMREAD_ANYCOLOR);
 
         opencv_core.Mat scaled;
         resize(image, scaled = new opencv_core.Mat(), new opencv_core.Size(50, 30));

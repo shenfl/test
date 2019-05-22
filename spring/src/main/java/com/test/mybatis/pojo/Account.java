@@ -6,7 +6,7 @@ package com.test.mybatis.pojo;
 public class Account {
     private int id;
     private String name;
-    private int money;
+    private String money;
 
     public int getId() {
         return id;
@@ -24,11 +24,11 @@ public class Account {
         this.name = name;
     }
 
-    public int getMoney() {
+    public String getMoney() {
         return money;
     }
 
-    public void setMoney(int money) {
+    public void setMoney(String money) {
         this.money = money;
     }
 

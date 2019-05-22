@@ -9,6 +9,9 @@
     <typeAliases>
         <package name="com.test.mybatis.pojo"/>  <!-- 写这个后TestDo就不用写全路径 -->
     </typeAliases>
+    <plugins>
+        <plugin interceptor="com.test.mybatis.SqlCostInterceptor"></plugin>
+    </plugins>
     <!-- 和spring整合后 environments配置将废除-->
     <environments default="development">
         <environment id="development">

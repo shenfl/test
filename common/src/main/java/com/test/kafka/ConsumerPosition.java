@@ -3,6 +3,7 @@ package com.test.kafka;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.kafka.clients.consumer.OffsetAndMetadata;
 import org.apache.kafka.common.TopicPartition;
 
 import java.util.Arrays;
@@ -23,12 +24,14 @@ public class ConsumerPosition {
         props.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
         KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props);
 
-//        TopicPartition topicPartition = new TopicPartition("shenfl", 1);
+        TopicPartition topicPartition = new TopicPartition("test_rebalance", 0);
 //        consumer.assign(Arrays.asList(topicPartition));
 
         while (true) {
-            long position = consumer.position(new TopicPartition("shenfl", 1));
-            System.out.println(position);
+            OffsetAndMetadata committed = consumer.committed(topicPartition); // 不用assign对应topic
+            System.out.println(committed.offset());
+//            long position = consumer.position(new TopicPartition("test_rebalance", 0));
+//            System.out.println(position);
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {

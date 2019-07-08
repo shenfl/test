@@ -57,6 +57,8 @@ import java.net.InetAddress;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 
+import static org.elasticsearch.script.Script.DEFAULT_SCRIPT_LANG;
+
 public class TestES {
     public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
 
@@ -266,6 +268,39 @@ public class TestES {
 //            System.out.println(item.getVersion());
 //        }
 
+        /**
+         * 测试list object更新性能
+         PUT /_scripts/aa
+         {
+         "script": {
+         "lang": "painless",
+         "code": "if(ctx._source.children == null) {ctx._source.children = params.p1} else{ctx._source.children.addAll(params.p1);}"
+         }
+         }
+         */
+//        long start = System.currentTimeMillis();
+//        Map<String, Object> params = new HashMap<>();
+//        Map<String, Object> map = new HashMap<>(1);
+//        for (int i = 0; i < 200; i++) {
+//            UpdateRequestBuilder requestBuilder = client.prepareUpdate("aa", "a", "1");
+//            params.put("id", i);
+//            params.put("name", "name" + i);
+//            List<Map<String, Object>> list = new LinkedList<>();
+//            list.add(params);
+//            map.put("p1", list);
+//            Script script = new Script(ScriptType.STORED, DEFAULT_SCRIPT_LANG, "aa", map);
+//            requestBuilder.setScript(script);
+//            UpdateResponse response = requestBuilder.get();
+//            String result = response.getResult().toString();
+//        }
+//        System.out.println("cost: " + (System.currentTimeMillis() - start));
+
+
+        // test upsert
+        UpdateRequestBuilder update = client.prepareUpdate("aa", "a", "2");
+        update.setDoc("{\"aa\": 33}", XContentType.JSON);
+        update.setDocAsUpsert(true);
+        update.get();
 
 
         // 测试bulk的速度
@@ -421,13 +456,13 @@ public class TestES {
 
 
         // delete by query
-        DeleteByQueryRequestBuilder delete = DeleteByQueryAction.INSTANCE.newRequestBuilder(client);
-        delete.source("aa");
-        delete.abortOnVersionConflict(false);
-        RangeQueryBuilder rangeQuery = QueryBuilders.rangeQuery("aa");
-        rangeQuery.lt(50);
-        delete.filter(rangeQuery);
-        delete.get();
+//        DeleteByQueryRequestBuilder delete = DeleteByQueryAction.INSTANCE.newRequestBuilder(client);
+//        delete.source("aa");
+//        delete.abortOnVersionConflict(false);
+//        RangeQueryBuilder rangeQuery = QueryBuilders.rangeQuery("aa");
+//        rangeQuery.lt(50);
+//        delete.filter(rangeQuery);
+//        delete.get();
 
 
         // re score

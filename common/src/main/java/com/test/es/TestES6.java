@@ -5,6 +5,7 @@ import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.TransportAddress;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
+import org.elasticsearch.plugin.analysis.ik.AnalysisIkPlugin;
 import org.elasticsearch.plugin.analysis.ik.CreateModelFromSetAction;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
 
@@ -23,7 +24,7 @@ public class TestES6 {
         System.out.println(props);
 
         Settings settings = buildSettings(propsToMap(props));
-        TransportClient client = new PreBuiltTransportClient(settings);
+        TransportClient client = new PreBuiltTransportClient(settings, AnalysisIkPlugin.class);
         Properties addr = loadProp("addresses.properties");
         Map<String, Integer> addressPortMap = buildAddressPortMap(propsToMap(addr));
 

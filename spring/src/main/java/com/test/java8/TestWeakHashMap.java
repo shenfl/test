@@ -80,6 +80,7 @@ public class TestWeakHashMap {
                 System.out.println("-------------------");
             }).start();
             TimeUnit.SECONDS.sleep(5);
+            System.gc();
         }
     }
 }

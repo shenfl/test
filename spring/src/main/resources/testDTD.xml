@@ -15,7 +15,7 @@
                 >
         ]>
 <!--外部定义方式-->
-<!--<!DOCTYPE note SYSTEM "http://a.org/ds.dtd">-->
+<!--<!DOCTYPE note PUBLIC "" "mybatis-3-config.dtd" >-->
 <note>
     <to>Tove</to>
     <from>Jani</from>

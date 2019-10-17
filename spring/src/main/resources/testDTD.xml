@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<!--内部定义方式: https://www.w3school.com.cn/dtd/dtd_building.asp-->
+<!DOCTYPE note [
+        <!ELEMENT note (to,from,heading,message)>
+        <!ELEMENT to      (#PCDATA)>
+        <!ELEMENT from    (#PCDATA)>
+        <!ELEMENT heading (#PCDATA)>
+        <!ELEMENT body    (#PCDATA)>
+        <!ELEMENT message    (#PCDATA)>
+        <!ATTLIST message
+                pid ID #REQUIRED
+                sex (男|女)  '男'
+                qq CDATA #IMPLIED
+                parent IDREF #IMPLIED
+                >
+        ]>
+<!--外部定义方式-->
+<!--<!DOCTYPE note SYSTEM "http://a.org/ds.dtd">-->
+<note>
+    <to>Tove</to>
+    <from>Jani</from>
+    <heading>Reminder</heading>
+    <message pid="ss">Don't forget me this weekend!</message>
+</note>

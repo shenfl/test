@@ -254,6 +254,11 @@
             <artifactId>nd4j-common</artifactId>
             <version>1.0.0-beta4</version>
         </dependency>
+        <dependency>
+            <groupId>ognl</groupId>
+            <artifactId>ognl</artifactId>
+            <version>3.2.11</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -261,23 +266,16 @@
             <resource>
                 <directory>src/main/resources</directory>
                 <includes>
-                    <include>**/*.properties</include>
-                    <include>**/*.xml</include>
-                    <include>**/*.jpg</include>
-                    <include>**/*.json</include>
+                    <include>**/*.*</include>
                 </includes>
                 <filtering>true</filtering>
             </resource>
             <resource>
                 <directory>src/main/java</directory>
                 <includes>
-                    <include>**/*.properties</include>
-                    <include>**/*.xml</include>
-                    <include>**/*.sandy</include>
-                    <include>**/*.txt</include>
-                    <include>**/*.index</include>
+                    <include>**/*.*</include>
                 </includes>
-                <filtering>false</filtering>
+                <filtering>true</filtering>
             </resource>
         </resources>
         <plugins>

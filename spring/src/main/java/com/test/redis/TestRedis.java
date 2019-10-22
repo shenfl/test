@@ -97,4 +97,37 @@ public class TestRedis {
         }
     }
 
+    @Test
+    public void testQueueSecurity() {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                ListOperations<String, String> operations = template.opsForList();
+                for (int i = 0; i < 5000; i++) {
+                    operations.leftPush("shenfl:list", "aa" + i);
+                }
+                System.out.println("over");
+            }
+        });
+        thread.start();
+        Thread thread1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                ListOperations<String, String> operations = template.opsForList();
+                for (int i = 0; i < 5000; i++) {
+                    operations.leftPush("shenfl:list", "bb" + i);
+                }
+                System.out.println("over");
+                System.out.println("over");
+            }
+        });
+        thread1.start();
+        try {
+            thread.join();
+            thread1.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

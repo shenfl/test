@@ -7,7 +7,7 @@
 
     <bean id="jedisConnectionFactory"
           class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
-          p:host-name="115.29.10.121"
+          p:host-name="cache.redis.scsite.net"
           p:port="6379" p:timeout="-1"/>
     <!-- redis template definition -->
     <bean id="redisTemplate"

@@ -56,6 +56,7 @@ import java.io.*;
 import java.net.InetAddress;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 import static org.elasticsearch.script.Script.DEFAULT_SCRIPT_LANG;
 
@@ -248,15 +249,15 @@ public class TestES {
 
         // bulk操作，可以同时操作多个index
 //        BulkRequestBuilder bulk = client.prepareBulk();
-//        IndexRequestBuilder add = client.prepareIndex("aa", "a", "6");
+//        IndexRequestBuilder add = client.prepareIndex("aa", "a", "2");
 //        add.setSource("{\"aa\":\"rar\"}", XContentType.JSON);
 //        bulk.add(add);
-//        add = client.prepareIndex("bb", "BB", "1");
-//        add.setSource("{\"22\":\"22\"}");
-//        bulk.add(add);
-//        UpdateRequestBuilder update = client.prepareUpdate("aa", "a", "6").setDoc("{\"aa\": \"tar\"}", XContentType.JSON); // 这个update不会删除原来老的key
+////        add = client.prepareIndex("bb", "BB", "1");
+////        add.setSource("{\"22\":\"22\"}");
+////        bulk.add(add);
+//        UpdateRequestBuilder update = client.prepareUpdate("aa", "a", "2").setDoc("{\"aa\": \"tar\"}", XContentType.JSON); // 这个update不会删除原来老的key
 //        bulk.add(update);
-//        UpdateRequestBuilder update1 = client.prepareUpdate("aa", "a", "6").setDoc("{\"aa\": \"zip\"}", XContentType.JSON);
+//        UpdateRequestBuilder update1 = client.prepareUpdate("aa", "a", "2").setDoc("{\"aa\": \"zip\"}", XContentType.JSON);
 //        bulk.add(update1);
 //        BulkResponse responses = bulk.execute().actionGet();
 //        BulkItemResponse[] items = responses.getItems();
@@ -297,10 +298,10 @@ public class TestES {
 
 
         // test upsert
-        UpdateRequestBuilder update = client.prepareUpdate("aa", "a", "2");
-        update.setDoc("{\"aa\": 33}", XContentType.JSON);
-        update.setDocAsUpsert(true);
-        update.get();
+//        UpdateRequestBuilder update = client.prepareUpdate("aa", "a", "2");
+//        update.setDoc("{\"aa\": 33}", XContentType.JSON);
+//        update.setDocAsUpsert(true);
+//        update.get();
 
 
         // 测试bulk的速度
@@ -368,6 +369,8 @@ public class TestES {
         // test visible
 //        IndexRequestBuilder indexRequestBuilder = client.prepareIndex("aa", "a", "15");
 //        String s = "{\"aa\": \"uue\"}";
+
+
 ////        IndexResponse response = indexRequestBuilder.setSource(s, XContentType.JSON).setRefreshPolicy(WriteRequest.RefreshPolicy.IMMEDIATE).get();
 //        IndexResponse response = indexRequestBuilder.setSource(s, XContentType.JSON).get();
 //        System.out.println(response);
@@ -383,6 +386,15 @@ public class TestES {
 //        for (MultiGetItemResponse resp : responses) {
 //            System.out.println(resp.getResponse().getSource());
 //        }
+
+        // preference
+//        long start = System.currentTimeMillis();
+//        SearchRequestBuilder searchRequestBuilder = client.prepareSearch("aa").setTimeout(new TimeValue(1, TimeUnit.MILLISECONDS));
+//        searchRequestBuilder.setPreference("84593095854");
+//        SearchResponse response1 = searchRequestBuilder.setQuery(QueryBuilders.matchAllQuery()).get();
+//        System.out.println(response1.getHits().getTotalHits());
+//        System.out.println(response1.isTimedOut());
+//        System.out.println((System.currentTimeMillis() - start) + " cost");
 
 //        SearchRequestBuilder searchRequestBuilder = client.prepareSearch("aa");
 //        TermQueryBuilder termQuery = QueryBuilders.termQuery("aa", "uue");
@@ -476,9 +488,12 @@ public class TestES {
 
 
         // reindex
-//        ReindexRequestBuilder reindexRequestBuilder = ReindexAction.INSTANCE.newRequestBuilder(client);
-//        reindexRequestBuilder.source("testdsl").destination("test_02");
-//        BulkByScrollResponse bulkByScrollResponse = reindexRequestBuilder.get(TimeValue.timeValueHours(1));
+        ReindexRequestBuilder reindexRequestBuilder = ReindexAction.INSTANCE.newRequestBuilder(client);
+        reindexRequestBuilder.source("aa").destination("aa");
+        RemoteInfo remoteInfo = new RemoteInfo("http", "es-cn-v641cc4uw0001xtat.public.elasticsearch.aliyuncs.com", 9200, QueryBuilders.matchAllQuery().buildAsBytes(), "elastic", "6183esG5eX9Y0sVl", new HashMap<String, String>(), TimeValue.timeValueHours(1), TimeValue.timeValueHours(1));
+        reindexRequestBuilder.setRemoteInfo(remoteInfo);
+        BulkByScrollResponse bulkByScrollResponse = reindexRequestBuilder.get(TimeValue.timeValueHours(1));
+        System.out.println(bulkByScrollResponse.toString());
 //
 //
 //        System.out.println("over");

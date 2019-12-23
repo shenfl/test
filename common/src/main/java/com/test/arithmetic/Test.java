@@ -24,4 +24,21 @@ public class Test {
         }
         System.out.println(arr[a.length][b.length]);
     }
+
+    /**
+     * 编辑距离
+     */
+    @org.junit.Test
+    public void test2() {
+        System.out.println(distance("abc", "bd"));
+    }
+    private int distance(String s1, String s2) {
+        if (s1.length() == 0) return s2.length();
+        if (s2.length() == 0) return s1.length();
+        if (s1.equals(s2)) return 0;
+        int temp;
+        if (s1.charAt(s1.length() - 1) == s2.charAt(s2.length() - 1)) temp = 0;
+        else temp = 1;
+        return Math.min(Math.min(distance(s1.substring(0, s1.length() - 1), s2), distance(s2.substring(0, s2.length() - 1), s1)), distance(s1.substring(0, s1.length() - 1), s2.substring(0, s2.length() - 1)) + temp);
+    }
 }

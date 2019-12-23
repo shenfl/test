@@ -1,6 +1,8 @@
 package com.test.spring;
 
-public class User {
+import org.springframework.beans.factory.InitializingBean;
+
+public class User implements InitializingBean {
     private String username;
     private String password;
     public User() {
@@ -16,9 +18,14 @@ public class User {
         return "李四";
     }
     public String getPassword() {
-        return "lisi123";
+        return "";
     }
     public void printUser(){
         System.out.println("当前用户的用户名："+username+" ,密码："+password);
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        System.out.println("user: " + username);
     }
 }

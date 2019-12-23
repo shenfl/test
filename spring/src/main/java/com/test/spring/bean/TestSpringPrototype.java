@@ -32,6 +32,8 @@ public class TestSpringPrototype {
     private User user2;
     @Autowired
     private Student student;
+    @Autowired
+    private Parent parent;
 
     @Test
     public void test() {
@@ -46,6 +48,8 @@ public class TestSpringPrototype {
         System.out.println(welcomer);
         System.out.println(welcomer.getMessage());
         System.out.println(student);
+        System.out.println("========");
+        System.out.println(parent.getName());
     }
 
     /**

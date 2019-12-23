@@ -115,7 +115,7 @@
         <dependency>
             <groupId>org.neo4j.driver</groupId>
             <artifactId>neo4j-java-driver</artifactId>
-            <version>1.6.2</version>
+            <version>1.7.5</version>
         </dependency>
         <dependency>
             <groupId>org.bytedeco</groupId>
@@ -258,6 +258,11 @@
             <groupId>ognl</groupId>
             <artifactId>ognl</artifactId>
             <version>3.2.11</version>
+        </dependency>
+        <dependency>
+            <groupId>com.101tec</groupId>
+            <artifactId>zkclient</artifactId>
+            <version>0.11</version>
         </dependency>
     </dependencies>
 

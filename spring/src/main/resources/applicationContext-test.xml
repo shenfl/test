@@ -18,8 +18,8 @@
     </bean>
 
     <bean id="user2" class="com.test.spring.User">
-        <property name="username" value="#{user1.getUsername()}"></property>
-        <property name="password" value="#{user1.getPassword()}"></property>
+        <property name="username" value="ss"></property>
+        <property name="password" value="dd"></property>
     </bean>
 
     <bean id="user1" class="com.test.spring.User">
@@ -28,7 +28,7 @@
     </bean>
 
     <bean id="parent" class="com.test.spring.bean.Parent">
-        <property name="name" value="ouyangfeng"/>
+        <property name="name" value="#{user1.password}"/>
     </bean>
     <!--下面的parent表示这个child的bean的父亲是id=parent的这个类-->
     <bean id="child" class="com.test.spring.bean.Child" parent="parent" name="cc,ccc">

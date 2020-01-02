@@ -50,6 +50,8 @@ import org.elasticsearch.script.ScriptType;
 import org.elasticsearch.script.StoredScriptSource;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
+import org.elasticsearch.search.aggregations.AggregationBuilders;
+import org.elasticsearch.search.aggregations.bucket.terms.TermsAggregationBuilder;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
 
 import java.io.*;
@@ -488,12 +490,12 @@ public class TestES {
 
 
         // reindex
-        ReindexRequestBuilder reindexRequestBuilder = ReindexAction.INSTANCE.newRequestBuilder(client);
-        reindexRequestBuilder.source("aa").destination("aa");
-        RemoteInfo remoteInfo = new RemoteInfo("http", "es-cn-v641cc4uw0001xtat.public.elasticsearch.aliyuncs.com", 9200, QueryBuilders.matchAllQuery().buildAsBytes(), "elastic", "6183esG5eX9Y0sVl", new HashMap<String, String>(), TimeValue.timeValueHours(1), TimeValue.timeValueHours(1));
-        reindexRequestBuilder.setRemoteInfo(remoteInfo);
-        BulkByScrollResponse bulkByScrollResponse = reindexRequestBuilder.get(TimeValue.timeValueHours(1));
-        System.out.println(bulkByScrollResponse.toString());
+//        ReindexRequestBuilder reindexRequestBuilder = ReindexAction.INSTANCE.newRequestBuilder(client);
+//        reindexRequestBuilder.source("aa").destination("aa");
+//        RemoteInfo remoteInfo = new RemoteInfo("http", "es-cn-v641cc4uw0001xtat.public.elasticsearch.aliyuncs.com", 9200, QueryBuilders.matchAllQuery().buildAsBytes(), "elastic", "6183esG5eX9Y0sVl", new HashMap<String, String>(), TimeValue.timeValueHours(1), TimeValue.timeValueHours(1));
+//        reindexRequestBuilder.setRemoteInfo(remoteInfo);
+//        BulkByScrollResponse bulkByScrollResponse = reindexRequestBuilder.get(TimeValue.timeValueHours(1));
+//        System.out.println(bulkByScrollResponse.toString());
 //
 //
 //        System.out.println("over");
@@ -545,7 +547,11 @@ public class TestES {
 //        System.out.println(response1);
 
 
-
+        // script聚合
+        TermsAggregationBuilder aggregationBuilder = AggregationBuilders.terms("kk").script(new Script(ScriptType.STORED, "painless", "aa", new HashMap<>()));
+        SearchRequestBuilder searchRequestBuilder = client.prepareSearch("aa").addAggregation(aggregationBuilder);
+        SearchResponse searchResponse = searchRequestBuilder.get();
+        System.out.println(searchResponse.toString());
 
 
         client.close();

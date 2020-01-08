@@ -1,7 +1,9 @@
 package com.test.spring;
 
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.context.annotation.Import;
 
+@Import(Student.class)
 public class User implements InitializingBean {
     private String username;
     private String password;

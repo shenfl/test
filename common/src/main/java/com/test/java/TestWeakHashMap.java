@@ -1,4 +1,4 @@
-package com.test.java8;
+package com.test.java;
 
 import java.util.WeakHashMap;
 import java.util.concurrent.TimeUnit;

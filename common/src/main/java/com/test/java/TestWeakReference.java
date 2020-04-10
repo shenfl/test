@@ -1,4 +1,4 @@
-package com.test.java8;
+package com.test.java;
 
 import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;

@@ -1,4 +1,4 @@
-package com.test.java8;
+package com.test.java;
 
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.DoubleBinaryOperator;

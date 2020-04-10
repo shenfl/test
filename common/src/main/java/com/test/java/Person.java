@@ -1,4 +1,4 @@
-package com.test.java8;
+package com.test.java;
 
 public class Person {
     public int com2(Student p2) {

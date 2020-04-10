@@ -1,4 +1,4 @@
-package com.test.java8;
+package com.test.java;
 
 public interface FunctionalInterfaceReturn {
     String generateTime();

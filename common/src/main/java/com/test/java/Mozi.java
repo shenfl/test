@@ -1,4 +1,4 @@
-package com.test.java8;
+package com.test.java;
 
 /**
  * Created by shenfl on 2018/6/4

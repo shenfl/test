@@ -1,8 +1,6 @@
-package com.test.java8;
+package com.test.java;
 
 import java.lang.reflect.Method;
-import java.util.concurrent.Callable;
-import java.util.concurrent.Future;
 
 public class TestVoid {
     public Void print(String v) {return null;}

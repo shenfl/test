@@ -1,16 +1,16 @@
-package com.test.arith;
+package com.test.java8;
 
 
 import java.util.Map;
 
-public class TestString {
+public class TestVisibility1 {
 
     private String input = "jdfoiewjgklmf;lrgk;e";
     private Map<Character, Integer> positions;
     private int max;
 
     public static void main(String[] args) {
-        TestString test = new TestString();
+        TestVisibility1 test = new TestVisibility1();
         test.canculate();
         final long[] i = {0};
         new Thread(new Runnable() {

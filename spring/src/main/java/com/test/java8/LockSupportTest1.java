@@ -1,4 +1,4 @@
-package com.test.arith;
+package com.test.java8;
 
 import java.util.concurrent.locks.LockSupport;
 

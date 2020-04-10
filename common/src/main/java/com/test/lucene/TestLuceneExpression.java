@@ -6,10 +6,8 @@ import org.apache.lucene.document.*;
 import org.apache.lucene.expressions.Expression;
 import org.apache.lucene.expressions.SimpleBindings;
 import org.apache.lucene.expressions.js.JavascriptCompiler;
-import org.apache.lucene.index.DirectoryReader;
-import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.index.*;
+import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
@@ -23,11 +21,24 @@ import java.nio.file.Paths;
  * 表达式计算分数
  */
 public class TestLuceneExpression {
-    public static final String PATH = "/Users/dasouche1/IdeaProjects/test/common/data2";
-    public static void main(String[] args) {
+    public static final String PATH = "/Users/shenfl/IdeaProjects/test/common/data2";
+    public static void main(String[] args) throws IOException {
 //        index();
+        search();
 //        testAcreage();
-        testCircum();
+//        testCircum();
+    }
+    public static void search() throws IOException {
+        Directory dir = FSDirectory.open(Paths.get(PATH));
+        IndexReader reader = DirectoryReader.open(dir);
+        IndexSearcher searcher = new IndexSearcher(reader);
+        Query query = new TermQuery(new Term("width", "3"));
+        TopDocs hits = searcher.search(query,10);
+        for (ScoreDoc scoreDoc : hits.scoreDocs) {
+            Document doc = searcher.doc(scoreDoc.doc);
+            System.out.println(doc.get("width"));
+        }
+        reader.close();
     }
     public static void index(){
         try {

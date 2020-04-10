@@ -4,9 +4,11 @@ import com.alibaba.otter.canal.client.CanalConnector;
 import com.alibaba.otter.canal.client.CanalConnectors;
 import com.alibaba.otter.canal.protocol.CanalEntry;
 import com.alibaba.otter.canal.protocol.Message;
+import com.twelvemonkeys.lang.StringUtil;
 
 import java.net.InetSocketAddress;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by shenfl on 2018/5/17
@@ -18,7 +20,7 @@ public class CanalClient {
 //                new InetSocketAddress("172.17.40.234", 11111),
 //                "index_schema", "", "");
 
-        CanalConnector connector = CanalConnectors.newClusterConnector("172.17.40.234:2181", "example", "", "");
+        CanalConnector connector = CanalConnectors.newClusterConnector("0.0.0.0:2181", "example", "", "");
 
         int batchSize = 1000;
         int emptyCount = 0;
@@ -28,16 +30,16 @@ public class CanalClient {
             connector.rollback();
             int totalEmptyCount = 10000000;
             while (emptyCount < totalEmptyCount) {
-                Message message = connector.getWithoutAck(batchSize); // 获取指定数量的数据
+                Message message = connector.getWithoutAck(batchSize, 500l, TimeUnit.MILLISECONDS); // 获取指定数量的数据
                 long batchId = message.getId();
                 int size = message.getEntries().size();
                 if (batchId == -1 || size == 0) {
                     emptyCount++;
                     System.out.println("empty count : " + emptyCount);
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                    }
+//                    try {
+//                        Thread.sleep(1000);
+//                    } catch (InterruptedException e) {
+//                    }
                 } else {
                     emptyCount = 0;
                     // System.out.printf("message[batchId=%s,size=%s] \n", batchId, size);
@@ -84,7 +86,74 @@ public class CanalClient {
                     System.out.println("-------&gt; after");
                     printColumn(rowData.getAfterColumnsList());
                 }
+
+                if (eventType == CanalEntry.EventType.DELETE) {
+                    Map<String, Object> data = new HashMap<>();
+                    for (CanalEntry.Column column : rowData.getBeforeColumnsList()) {
+                        data.put(column.getName(), parseValueByMysqlType(column.getValue(), column.getMysqlType()));
+                        if (column.getIsKey()) {
+                            System.out.println(column.getName());
+                        }
+                    }
+                    System.out.println("data: " + data);
+                } else if (eventType == CanalEntry.EventType.INSERT) {
+                    Map<String, Object> data = new HashMap<>();
+                    for (CanalEntry.Column column : rowData.getAfterColumnsList()) {
+                        data.put(column.getName(), parseValueByMysqlType(column.getValue(), column.getMysqlType()));
+                        if (column.getIsKey()) {
+                            System.out.println(column.getName());
+                        }
+                    }
+                    System.out.println("data: " + data);
+                } else {
+                    Map<String, Object> data = new HashMap<>();
+                    List<String> updatedColumnNames = new ArrayList<>();
+                    for (CanalEntry.Column column : rowData.getAfterColumnsList()) {
+                        if (column.getUpdated()) {
+                            updatedColumnNames.add(column.getName());
+                        }
+                        data.put(column.getName(), parseValueByMysqlType(column.getValue(), column.getMysqlType()));
+                        if (column.getIsKey()) {
+                            System.out.println(column.getName());
+                        }
+                    }
+                    System.out.println("data: " + data);
+
+                    Map<String, Object> old = new HashMap<>();
+                    for (CanalEntry.Column column : rowData.getBeforeColumnsList()) {
+                        if (updatedColumnNames.contains(column.getName())) {
+                            old.put(column.getName(), parseValueByMysqlType(column.getValue(), column.getMysqlType()));
+                        }
+                    }
+                    System.out.println("old: " + old);
+                }
+
             }
+        }
+    }
+
+    private static Object parseValueByMysqlType(String value, String mysqlType) {
+        if (StringUtil.isEmpty(value)) {
+            return null;
+        }
+        try {
+            if (mysqlType.indexOf("bigint") > -1) {
+                return Long.parseLong(value);
+            } else if (mysqlType.indexOf("int") > -1) {
+                return Integer.parseInt(value);
+            } else if (mysqlType.indexOf("double") > -1) {
+                return Double.parseDouble(value);
+            } else if (mysqlType.indexOf("float") > -1) {
+                return Float.parseFloat(value);
+            } else if (mysqlType.indexOf("datetime") > -1) {
+                return value;
+            } else if (mysqlType.indexOf("date") > -1) {
+                return value;
+            } else {
+                return value;
+            }
+        } catch (Exception e) {
+            return value;
         }
     }
 

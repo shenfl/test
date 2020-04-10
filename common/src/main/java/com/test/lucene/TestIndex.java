@@ -26,7 +26,7 @@ public class TestIndex {
 
         // Store the index in memory:
 //        Directory directory = new RAMDirectory();
-        Directory directory = FSDirectory.open(Paths.get("/Users/dasouche1/IdeaProjects/test/common/data1"));
+        Directory directory = FSDirectory.open(Paths.get("/Users/shenfl/IdeaProjects/test/common/data1"));
         // To store an index on disk, use this instead:
         //Directory directory = FSDirectory.open("/tmp/testindex");
         IndexWriterConfig config = new IndexWriterConfig(analyzer);
@@ -48,8 +48,8 @@ public class TestIndex {
         iwriter.commit();
 
 
-        iwriter.deleteDocuments(new Term("fieldname", "hello"));
-        iwriter.commit();
+//        iwriter.deleteDocuments(new Term("fieldname", "hello"));
+//        iwriter.commit();
 
         System.out.println(iwriter.numDocs());
 

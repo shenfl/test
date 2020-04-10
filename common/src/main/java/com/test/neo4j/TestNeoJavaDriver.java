@@ -42,7 +42,7 @@ public class TestNeoJavaDriver implements AutoCloseable {
             String s = session.readTransaction(new TransactionWork<String>() {
                 @Override
                 public String execute(Transaction transaction) {
-                    StatementResult run = transaction.run("MATCH (n:Person) RETURN n LIMIT 25");
+                    StatementResult run = transaction.run("MATCH (n:Customer) RETURN n LIMIT 25");
                     while (run.hasNext()) {
                         Record next = run.next();
                         Iterable<String> keys = next.get(0).keys();
@@ -58,7 +58,7 @@ public class TestNeoJavaDriver implements AutoCloseable {
     }
 
     public static void main( String... args ) throws Exception {
-        try ( TestNeoJavaDriver greeter = new TestNeoJavaDriver( "bolt://172.17.40.234:7687", "neo4j", "shenfl" ) ) {
+        try ( TestNeoJavaDriver greeter = new TestNeoJavaDriver( "bolt://172.17.41.96:7687", "neo4j", "admin" ) ) {
             greeter.printGreeting( "hello, world" );
         }
     }

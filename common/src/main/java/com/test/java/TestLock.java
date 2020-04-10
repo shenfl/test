@@ -1,4 +1,4 @@
-package com.test.netty;
+package com.test.java;
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;

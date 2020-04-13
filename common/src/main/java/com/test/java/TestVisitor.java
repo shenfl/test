@@ -14,6 +14,12 @@ public class TestVisitor {
         Visitor visitor = new VisitorB();
         Node node = new BNode();
         node.accept(visitor);
+
+        /**
+         * 其实完全可以使用另外一种方式，Visitor接口还是一样，
+         * 当Node有数据后，用if语句判断具体的Node类型
+         * 然后强转后传入Visitor接口
+         */
     }
     interface Visitor{
         void visit(ANode node);

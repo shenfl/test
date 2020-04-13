@@ -8,7 +8,9 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <context:component-scan base-package="com.test.spring.bean"/>
+    <context:component-scan base-package="com.test.spring.bean">
+        <context:exclude-filter type="regex" expression="com\.test\.spring\.bean\.test\..*"/>
+    </context:component-scan>
 
     <bean id="welcomer" class="com.test.spring.Welcomer" factory-method="createWelcomer" scope="prototype">
         <constructor-arg ref="locator"/>

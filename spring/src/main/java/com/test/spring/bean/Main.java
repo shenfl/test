@@ -17,5 +17,6 @@ public class Main {
         System.out.println(cc == c);
         Object ccc = applicationContext.getBean("cc");
         System.out.println(ccc == c);
+        System.out.println(applicationContext.getBean("user"));
     }
 }

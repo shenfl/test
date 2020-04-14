@@ -11,5 +11,9 @@ public class Main {
         ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
         LongDao longDao = (LongDao) context.getBean("longDao");
         longDao.save();
+        /*
+          得不到，应该是注册完bean registry后就把原来的bean删除了
+         */
+        System.out.println(context.getBean(LongBeanDefinationRegistry.class));
     }
 }

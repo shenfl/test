@@ -18,7 +18,7 @@ public class Main {
         String[] beanDefinitionNames = context.getBeanDefinitionNames();
         System.out.println(beanCount);
         for (String beanDefinitionName : beanDefinitionNames) {
-            System.out.println(beanDefinitionName);
+            System.out.println(context.getBean(beanDefinitionName));
         }
     }
 }

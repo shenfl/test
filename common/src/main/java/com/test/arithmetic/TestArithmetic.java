@@ -3,7 +3,7 @@ package com.test.arithmetic;
 /**
  * Created by shenfl on 2018/6/11
  */
-public class Test {
+public class TestArithmetic {
     /**
      * 动态规划找相同最长子序列
      */
@@ -26,11 +26,12 @@ public class Test {
     }
 
     /**
-     * 编辑距离
+     * 编辑距离，递归实现
+     * https://www.jianshu.com/p/a617d20162cf
      */
     @org.junit.Test
     public void test2() {
-        System.out.println(distance("abc", "bd"));
+        System.out.println(distance("xyz", "xxc"));
     }
     private int distance(String s1, String s2) {
         if (s1.length() == 0) return s2.length();
@@ -39,6 +40,6 @@ public class Test {
         int temp;
         if (s1.charAt(s1.length() - 1) == s2.charAt(s2.length() - 1)) temp = 0;
         else temp = 1;
-        return Math.min(Math.min(distance(s1.substring(0, s1.length() - 1), s2), distance(s2.substring(0, s2.length() - 1), s1)), distance(s1.substring(0, s1.length() - 1), s2.substring(0, s2.length() - 1)) + temp);
+        return Math.min(Math.min(distance(s1.substring(0, s1.length() - 1), s2) + 1, distance(s2.substring(0, s2.length() - 1), s1) + 1), distance(s1.substring(0, s1.length() - 1), s2.substring(0, s2.length() - 1)) + temp);
     }
 }

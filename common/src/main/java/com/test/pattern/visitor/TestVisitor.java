@@ -1,4 +1,4 @@
-package com.test.java;
+package com.test.pattern.visitor;
 
 /**
  * 访问者模式

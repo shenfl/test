@@ -54,6 +54,11 @@
             <artifactId>fastjson</artifactId>
             <version>1.2.29</version>
         </dependency>
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>1.9.1</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -81,7 +86,7 @@
                             </filters>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>com.test.es.spark.TestHive2ES</mainClass>
+                                    <mainClass>com.test.es.hadoop.SecondarySort</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>

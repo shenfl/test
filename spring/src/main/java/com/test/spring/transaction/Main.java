@@ -6,6 +6,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 
 /**
  * Created by shenfl on 2018/6/18
@@ -18,7 +19,10 @@ public class Main {
     private AccountService accountService;
 
     @Test
-    public void test() {
-        accountService.pay("shenfl", "lulu", 1000);
+    public void test() throws IOException {
+        // 事务不生效：https://baijiahao.baidu.com/s?id=1661565712893820457&wfr=spider&for=pc
+//        accountService.does("ss", "shenfl", 1000);
+        // 事务生效
+        accountService.pay("ss", "shenfl", 1000);
     }
 }

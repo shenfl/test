@@ -1,6 +1,7 @@
 package com.test.spring.transaction;
 
 import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -30,10 +31,11 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     @Transactional(rollbackFor = IOException.class) // 需要指定rollbackFor这儿的IOException才能触发回滚，当然10／0还是能回滚
+    // 如果配置了propagation = Propagation.SUPPORTS，Propagation.NOT_SUPPORTED,Propagation.NEVER则什么异常都不会回滚
     public void pay(String out, String in, double money) throws IOException {
         accountDao.outMoney(out, money);
-//        int a = 10/0;
-        if (true) throw new IOException("ss");
+        int a = 10/0;
+//        if (true) throw new IOException("ss");
         accountDao.inMoney(in, money);
 
 

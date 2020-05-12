@@ -1,5 +1,6 @@
 package com.test.arithmetic;
 
+import java.util.LinkedList;
 import java.util.Random;
 
 /**
@@ -98,6 +99,51 @@ public class TestArithmetic {
             return work(array, start, start + maxScale, k);
         } else {
             return work(array, start + maxScale + 1, end, k - maxScale - 1);
+        }
+    }
+
+    /**
+     * 拓扑排序
+     * https://time.geekbang.org/column/article/76207
+     */
+    @org.junit.Test
+    public void test4() {
+
+    }
+    static class Graph {
+        private int v; // 顶点的个数
+        private LinkedList<Integer> adj[]; // 邻接表
+        public Graph(int v) {
+            this.v = v;
+            adj = new LinkedList[v];
+            for (int i=0; i<v; ++i) {
+                adj[i] = new LinkedList<>();
+            }
+        }
+        public void addEdge(int s, int t) { // s先于t，边s->t
+            adj[s].add(t);
+        }
+        public void topoSortByKahn() {
+            int[] inDegree = new int[v]; // 统计每个顶点的入度
+            for (int i = 0; i < v; ++i) {
+                for (int j = 0; j < adj[i].size(); ++j) {
+                    int w = adj[i].get(j); // i->w
+                    inDegree[w]++;
+                }
+            }
+            LinkedList<Integer> queue = new LinkedList<>();
+            for (int i = 0; i < v; ++i) {
+                if (inDegree[i] == 0) queue.add(i);
+            }
+            while (!queue.isEmpty()) {
+                int i = queue.remove();
+                System.out.print("->" + i);
+                for (int j = 0; j < adj[i].size(); ++j) {
+                    int k = adj[i].get(j);
+                    inDegree[k]--;
+                    if (inDegree[k] == 0) queue.add(k);
+                }
+            }
         }
     }
 }

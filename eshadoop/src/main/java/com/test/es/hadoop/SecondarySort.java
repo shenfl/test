@@ -27,6 +27,7 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
  * Order_0000003,Pdt_01,322.8
  * 也就是说设置setGroupingComparatorClass后，就是根据这个做reduce分组，分完组后还是需要排序的，排序默认是根据对象的hashcode方法，这样就把
  * amount最高的放到前面了，而reduce只放进去一个key，所以就是那个amount最高的key
+ * 因为同一个reducer端会有很多不同的key过来，我猜测这些key会被排序，排序后做grouping，这样itemid相同的被放到一个组里，同样这个组里的key中也是安装amount排序的
  * 也可以参照https://blog.csdn.net/amuseme_lu/article/details/6956171
  */
 public class SecondarySort {

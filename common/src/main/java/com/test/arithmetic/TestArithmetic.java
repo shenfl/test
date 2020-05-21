@@ -16,6 +16,8 @@ public class TestArithmetic {
         char[] b = {'q', 's', 'w', 'a', 'g', 'a'};
 
         int[][] arr = new int[a.length + 1][b.length + 1];
+        // a[i] == b[j]相当与动态规划数组中的第二行，用来确定arr[i + 1][j + 1]的值是没有问题的
+        // 而且for中遍历的是a和b数组，不是arr数组
         for (int i = 0; i < a.length; i++) {
             for (int j = 0; j < b.length; j++) {
                 if (a[i] == b[j]) {
@@ -35,7 +37,23 @@ public class TestArithmetic {
     @org.junit.Test
     public void test2() {
         System.out.println(distance("xyz", "xxc"));
+        System.out.println(distance(new char[]{'x','y','z'},new char[]{'x','x','c'}));
     }
+
+    private int distance(char[] a, char[] b) {
+        int[][] arr = new int[a.length + 1][b.length + 1];
+        for (int i = 0; i < a.length; i++) {
+            for (int j = 0; j < b.length; j++) {
+                if (a[i] == b[j]) {
+                    arr[i+1][j+1] = Math.min(Math.min(arr[i][j], arr[i+1][j] + 1), arr[i][j+1] + 1);
+                } else {
+                    arr[i+1][j+1] = Math.min(Math.min(arr[i][j] + 1, arr[i+1][j] + 1), arr[i][j+1] + 1);
+                }
+            }
+        }
+        return arr[a.length][b.length];
+    }
+
     private int distance(String s1, String s2) {
         if (s1.length() == 0) return s2.length();
         if (s2.length() == 0) return s1.length();

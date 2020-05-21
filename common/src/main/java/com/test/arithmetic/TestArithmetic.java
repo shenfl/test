@@ -108,7 +108,10 @@ public class TestArithmetic {
      */
     @org.junit.Test
     public void test4() {
-
+        Graph graph = new Graph(3);
+        graph.addEdge(0, 2);
+        graph.addEdge(1, 2);
+        graph.topoSortByKahn();
     }
     static class Graph {
         private int v; // 顶点的个数

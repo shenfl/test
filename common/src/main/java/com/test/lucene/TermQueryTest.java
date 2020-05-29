@@ -117,6 +117,10 @@ public class TermQueryTest {
             ScoreDoc scoreDoc = scoreDocs[i];
             // 输出满足查询条件的 文档号
             System.out.println("result"+i+": 文档"+scoreDoc.doc+"");
+            Document document = searcher.doc(scoreDoc.doc);
+            for (IndexableField field : document) {
+                System.out.println("\t" + field.name() + ": " + document.get(field.name()));
+            }
         }
 
     }

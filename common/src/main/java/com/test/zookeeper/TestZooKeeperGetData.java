@@ -17,6 +17,7 @@ import static org.apache.zookeeper.Watcher.Event.KeeperState.SyncConnected;
  * https://blog.csdn.net/lipeng_bigdata/article/details/50985811
  * 当节点watch为true，但是并没有给watcher对象时，使用的是创建zookeeper时的watcher
  * watch回调是单线程的。child1和child2都修改了，但是process方法中耗时很大，导致其他的watcher没法执行
+ * 即使使用不同的watch对象页是单线程一个个执行
  */
 public class TestZooKeeperGetData {
 

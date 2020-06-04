@@ -17,7 +17,7 @@ import org.apache.zookeeper.data.Stat;
  * Created by shenfl on 2018/6/15
  * https://blog.csdn.net/qq_17089617/article/details/77959377
  */
-public class TestMain {
+public class TestAuth {
     private static ExecutorService executorService = null;
     private static ZooKeeper correctAuthZookeeper = null ;
     private static ZooKeeper badAuthZookeeper = null ;

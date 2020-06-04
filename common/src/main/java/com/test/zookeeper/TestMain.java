@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -67,7 +66,7 @@ public class TestMain {
         executorService.execute(new Runnable() {
             @Override
             public void run() {
-                correctAuthZookeeper = new CorrectAuthZookeeper().getCorrectAuthZookeeper();
+                correctAuthZookeeper = new AuthCorrectZookeeper().getCorrectAuthZookeeper();
                 countDownLatch.countDown();
             }
         });
@@ -75,7 +74,7 @@ public class TestMain {
         executorService.execute(new Runnable() {
             @Override
             public void run() {
-                badAuthZookeeper = new BadAuthZookeeper().getCorrectAuthZookeeper();
+                badAuthZookeeper = new AuthBadZookeeper().getCorrectAuthZookeeper();
                 countDownLatch.countDown();
             }
         });
@@ -83,7 +82,7 @@ public class TestMain {
         executorService.execute(new Runnable() {
             @Override
             public void run() {
-                notAuthZookeeper = new NotAuthZookeeper().getCorrectAuthZookeeper();
+                notAuthZookeeper = new AuthNotZookeeper().getCorrectAuthZookeeper();
                 countDownLatch.countDown();
             }
         });

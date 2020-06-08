@@ -1,4 +1,4 @@
-// Generated from /Users/dasouche1/IdeaProjects/test/common/src/main/java/com/test/antlr/idata/IData.g4 by ANTLR 4.5.1
+// Generated from /Users/shenfl/IdeaProjects/test/common/src/main/java/com/test/antlr/idata/IData.g4 by ANTLR 4.5.3
 package com.test.antlr.idata;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
@@ -11,7 +11,7 @@ import org.antlr.v4.runtime.misc.*;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class IDataLexer extends Lexer {
-	static { RuntimeMetaData.checkVersion("4.5.1", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.5.3", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =

@@ -8,6 +8,13 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
+/**
+ * antlr4权威指南p108 重写输入流
+ * 作用是假设输入2 9 10 3 1 2 3
+ * 结果是：2 9 10
+ *        3 1 2 3
+ * 根据划分规则分行
+ */
 public class IData {
     public static void main(String[] args) throws Exception {
         InputStream is = args.length > 0 ? new FileInputStream(args[0]) : System.in;

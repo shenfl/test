@@ -139,22 +139,29 @@ public class TestRedis {
 
     @Test
     public void testPublish() {
-        template.convertAndSend("shenfl", "java");
+        for (int i = 0; i < 1000; i++) {
+            template.convertAndSend("shenfl", "java" + i);
+        }
     }
 
     @Test
     public void testSubscribe() {
+        AtomicInteger atomicInteger = new AtomicInteger();
         ThreadFactory threadFactory = new ThreadFactory() {
             @Override
             public Thread newThread(Runnable r) {
-                Thread thread = new Thread(r, "redis subscribe");
+                Thread thread = new Thread(r, "redis subscribe" + atomicInteger.incrementAndGet());
                 thread.setDaemon(true);
                 return thread;
             }
         };
         RedisMessageListenerContainer container = new RedisMessageListenerContainer();
         container.setConnectionFactory(template.getConnectionFactory());
-        Executor executor = new ThreadPoolExecutor(2, 2, // 线程池大小不能设置成1，否则接收不到消息
+        /**
+         * 线程池大小不能设置成1，否则接收不到消息
+         * 3个线程，会有两个线程用于处理消息
+         */
+        Executor executor = new ThreadPoolExecutor(3, 3,
                 0L, TimeUnit.MILLISECONDS,
                 new LinkedBlockingQueue<>(),
                 threadFactory);
@@ -164,8 +171,9 @@ public class TestRedis {
         MessageListener listener = new MessageListenerAdapter() {
             @Override
             public void onMessage(Message message, byte[] bytes) {
-                System.out.println("channel: " + new String(message.getChannel()));
-                System.out.println("message: " + new String(message.getBody()));
+                System.out.println(Thread.currentThread().getName() + " channel: " + new String(message.getChannel()));
+                System.out.println(Thread.currentThread().getName() + " message: " + new String(message.getBody()));
+                throw new RuntimeException("hello"); // 抛出异常仍然能增常运行
             }
         };
         container.addMessageListener(listener, new ChannelTopic("shenfl"));

@@ -36,6 +36,7 @@ public class Producer {
                 }
             });
             try {
+                // callback执行完后get才能过去
                 future.get();
                 System.out.println("aa");
             } catch (Exception e) {

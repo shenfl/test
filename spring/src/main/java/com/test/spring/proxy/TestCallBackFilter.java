@@ -1,5 +1,6 @@
 package com.test.spring.proxy;
 
+import org.springframework.cglib.core.DebuggingClassWriter;
 import org.springframework.cglib.proxy.*;
 import java.lang.reflect.Method;
 
@@ -8,6 +9,8 @@ import java.lang.reflect.Method;
  */
 public class TestCallBackFilter {
     public static void main(String[] args) {
+        // 将增强的类输出到这个路径
+        System.setProperty(DebuggingClassWriter.DEBUG_LOCATION_PROPERTY, "/Users/shenfl/work/aa");
         // 回调实例数组
         Callback[] callbacks = new Callback[] { new MethodInterceptor() {
             @Override

@@ -1,9 +1,10 @@
 package com.test.fastjson;
 
 import com.alibaba.fastjson.serializer.ValueFilter;
-
 import java.math.BigDecimal;
-
+/**
+ * https://blog.csdn.net/wangjunjun2008/article/details/53010594
+ */
 public class BigDecimalValueFilter implements ValueFilter {
     /**
      * @param object 对象

@@ -1,6 +1,9 @@
 package com.test.arithmetic;
 
+import org.junit.Test;
+
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -165,6 +168,37 @@ public class TestArithmetic {
                     if (inDegree[k] == 0) queue.add(k);
                 }
             }
+        }
+    }
+
+    @Test
+    /**
+     * 100人从1数，3的倍数就去掉
+     */
+    public void test5() {
+        int n = 100;
+        List<Integer> left = new LinkedList<>();
+        List<Integer> right = new LinkedList<>();
+        for (int i = 1; i <= n; i++) {
+            left.add(i);
+        }
+        int count = 0;
+        while (true) {
+            while (left.size() > 0) {
+                count++;
+                if (count % 3 == 0) {
+                    left.remove(0);
+                } else {
+                    right.add(left.remove(0));
+                }
+            }
+            if (right.size() == 1) {
+                System.out.println(right.get(0));
+                break;
+            }
+            List<Integer> tmp = left;
+            left = right;
+            right = tmp;
         }
     }
 }

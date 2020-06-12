@@ -19,7 +19,7 @@ public class Calc {
 
         EvalVisitor eval = new EvalVisitor();
         // 开始遍历语法分析树
-        eval.visit(tree);
+        System.out.println(eval.visit(tree));
 
         System.out.println(tree.toStringTree(parser));
     }

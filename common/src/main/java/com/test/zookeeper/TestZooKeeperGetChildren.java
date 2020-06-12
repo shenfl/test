@@ -72,6 +72,7 @@ public class TestZooKeeperGetChildren {
 
             // 获取子目录节点列表
             System.out.println("开始获取根目录/tmp_root_path节点的子目录节点列...");
+            // 只监听子节点的增加和删除，修改子节点值不会触发，如果这儿换成getData，则创建子节点和删除子节点不会触发，删除根节点才会触发
             System.out.println(zk.getChildren("/tmp_root_path", true));
             System.out.println("根目录/tmp_root_path节点的子目录节点列获取成功！");
 

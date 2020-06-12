@@ -115,8 +115,10 @@ public class TestZooKeeperGetData {
 
             // 获取第二个子目录节点/tmp_root_path/childPath2节点数据
             System.out.println("开始获取第二个子目录节点/tmp_root_path/childPath2节点数据...");
-            System.out.println(new String(zk.getData("/tmp_root_path/childPath2", true, null)));
+            // 即能监听节点修改事件，也能监听节点删除事件，如果节点不存在，则失败，由于getChildren("/tmp_root_path")也会监听子节点删除操作
+            // 所以如果两个监听都有，则都能触发
             System.out.println(new String(zk.getData("/tmp_root_path/childPath1", true, null)));
+            System.out.println(new String(zk.getData("/tmp_root_path/childPath2", true, null)));
             System.out.println("第二个子目录节点/tmp_root_path/childPath2节点数据获取成功！");
 
             Thread.currentThread().sleep(1000l);

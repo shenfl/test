@@ -4,7 +4,9 @@ public class Welcomer {
 
     private MessageLocator message;
 
-    public Welcomer(){}
+    public Welcomer(){
+        System.out.println("bb");
+    }
 
     public Welcomer(MessageLocator message) {
         this.message = message;
@@ -14,6 +16,10 @@ public class Welcomer {
         return message;
     }
 
+    public void setMessage(MessageLocator message) {
+        this.message = message;
+    }
+
     public static Welcomer createWelcomer(MessageLocator messageLocator) {
         System.out.println("create welcomer");
         return new Welcomer(messageLocator);
@@ -21,6 +27,9 @@ public class Welcomer {
 
     public static class MessageLocator{
         String source;
+        public MessageLocator() {
+            System.out.println("aa");
+        }
 
         public String getSource() {
             return source;

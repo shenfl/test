@@ -12,7 +12,7 @@
         <context:exclude-filter type="regex" expression="com\.test\.spring\.bean\.test\..*"/>
     </context:component-scan>
 
-    <bean id="welcomer" class="com.test.spring.Welcomer" factory-method="createWelcomer" scope="prototype">
+    <bean id="welcomer" class="com.test.spring.Welcomer">
         <constructor-arg ref="locator"/>
     </bean>
     <bean id="locator" class="com.test.spring.Welcomer$MessageLocator">

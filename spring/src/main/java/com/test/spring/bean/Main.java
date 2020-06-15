@@ -1,5 +1,6 @@
 package com.test.spring.bean;
 
+import com.test.spring.Welcomer;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -22,7 +23,7 @@ public class Main {
 //        System.out.println(applicationContext.getBean("user"));
 
         XmlBeanFactory beanFactory = new XmlBeanFactory(new ClassPathResource("applicationContext-test.xml"));
-        Parent parent = beanFactory.getBean("parent", Parent.class);
-        System.out.println(parent.getName());
+        Welcomer parent = beanFactory.getBean("welcomer", Welcomer.class);
+        System.out.println(parent.getMessage().getSource());
     }
 }

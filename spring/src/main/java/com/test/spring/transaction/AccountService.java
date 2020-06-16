@@ -10,5 +10,6 @@ import java.io.IOException;
 public interface AccountService {
 //    @Transactional(rollbackFor = IOException.class) // 注册在接口上也能回滚
     void pay(String out, String in, double money) throws IOException;
+    void nestedPay(String out, String in, double money) throws IOException;
     void does(String out, String in, double money) throws IOException;
 }

@@ -6,4 +6,6 @@ package com.test.spring.transaction;
 public interface AccountDao {
     void outMoney(String out, double money);
     void inMoney(String in, double money);
+    void outMoney1(String out, double money);
+    void inMoney1(String in, double money);
 }

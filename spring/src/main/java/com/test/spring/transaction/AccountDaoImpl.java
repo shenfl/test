@@ -18,4 +18,14 @@ public class AccountDaoImpl extends JdbcDaoSupport implements AccountDao {
     public void inMoney(String in, double money) {
         getJdbcTemplate().update("UPDATE account SET money = money + ? where name = ?", money, in);
     }
+
+    @Override
+    public void outMoney1(String out, double money) {
+        getJdbcTemplate().update("UPDATE account1 SET money = money - ? where name = ?", money, out);
+    }
+
+    @Override
+    public void inMoney1(String in, double money) {
+        getJdbcTemplate().update("UPDATE account1 SET money = money + ? where name = ?", money, in);
+    }
 }

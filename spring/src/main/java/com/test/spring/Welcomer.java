@@ -2,6 +2,8 @@ package com.test.spring;
 
 import org.springframework.beans.factory.InitializingBean;
 
+import javax.annotation.PostConstruct;
+
 public class Welcomer implements InitializingBean {
 
     private MessageLocator message;
@@ -13,6 +15,13 @@ public class Welcomer implements InitializingBean {
 
     public Welcomer(){
         System.out.println("bb");
+    }
+    @PostConstruct
+    /**
+     * InitDestroyAnnotationBeanPostProcessor的postProcessBeforeDestruction中执行，但是XmlBeanFactory中没有这个beanpostprocessor，ClassPathXmlApplicationContext中有
+     */
+    public void init() {
+        System.out.println("vvv");
     }
     private static String get() {
         System.out.println("kk");

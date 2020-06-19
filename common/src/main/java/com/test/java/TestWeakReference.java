@@ -20,17 +20,18 @@ public class TestWeakReference {
             if(weakCar.get()!=null){
                 i++;
                 System.out.println("Object is alive for "+i+" loops - "+weakCar);
+                System.out.println(weakCar.isEnqueued());
                 Reference<? extends Car> poll = queue.poll();
                 if (poll != null) System.out.println("equals: " + (weakCar == poll));
                 System.out.println(poll); // 一直是null
-                System.out.println(weakCar.isEnqueued());
                 System.out.println("----------");
             } else {
+                System.out.println(weakCar.isEnqueued());
                 Reference<? extends Car> poll = queue.poll();
+                System.out.println(weakCar.isEnqueued());
                 if (poll != null) System.out.println("equals: " + (weakCar == poll));
                 System.out.println(poll); // 当被回收后能poll出来WeakReference对象
                 System.out.println("Object has been collected.");
-                System.out.println(weakCar.isEnqueued());
                 System.out.println("----------");
                 break;
             }

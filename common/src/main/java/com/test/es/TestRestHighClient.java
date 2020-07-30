@@ -1,7 +1,11 @@
 package com.test.es;
 
+import com.alibaba.fastjson.JSON;
 import org.apache.http.HttpHost;
+import org.apache.lucene.queryparser.xml.builders.BooleanQueryBuilder;
 import org.elasticsearch.action.admin.indices.alias.Alias;
+import org.elasticsearch.action.search.SearchRequest;
+import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
@@ -9,14 +13,53 @@ import org.elasticsearch.client.indices.CreateIndexRequest;
 import org.elasticsearch.client.indices.CreateIndexResponse;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.xcontent.XContentType;
+import org.elasticsearch.index.query.MatchAllQueryBuilder;
+import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 
 import java.io.IOException;
 
 public class TestRestHighClient {
     public static void main(String[] args) throws IOException {
         RestHighLevelClient client = new RestHighLevelClient(
-                RestClient.builder(new HttpHost("b-tes.souche-inc.com", 80, "http")));
-        testCreate(client);
+                RestClient.builder(new HttpHost("localhost", 9200, "http")));
+//        testCreate(client);
+        testSearch(client);
+        client.close();
+    }
+
+    private static void testSearch(RestHighLevelClient client) throws IOException {
+        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+        searchSourceBuilder.query(new MatchAllQueryBuilder());
+        searchSourceBuilder.size(3);
+
+        SearchRequest searchRequest = new SearchRequest()
+                .indices("aa")
+                .source(searchSourceBuilder);
+        SearchResponse search = client.search(searchRequest, RequestOptions.DEFAULT);
+        for (SearchHit hit : search.getHits()) {
+            System.out.println(hit.getSourceRef().utf8ToString());
+            Object object = JSON.parseObject(hit.getSourceRef().streamInput(), A.class);
+            System.out.println(object);
+        }
+    }
+    static class A {
+        private String aa;
+
+        public String getAa() {
+            return aa;
+        }
+
+        public void setAa(String aa) {
+            this.aa = aa;
+        }
+
+        @Override
+        public String toString() {
+            return "A{" +
+                    "aa='" + aa + '\'' +
+                    '}';
+        }
     }
 
     private static void testCreate(RestHighLevelClient client) throws IOException {

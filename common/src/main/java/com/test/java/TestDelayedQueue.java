@@ -14,8 +14,8 @@ import java.util.concurrent.TimeUnit;
 public class TestDelayedQueue {
     public static void main(String[] args) throws InterruptedException {
         Item item1 = new Item("item1", 5, TimeUnit.SECONDS);
-        Item item2 = new Item("item2",10, TimeUnit.SECONDS);
-        Item item3 = new Item("item3",15, TimeUnit.SECONDS);
+        Item item2 = new Item("item2",15, TimeUnit.SECONDS);
+        Item item3 = new Item("item3",10, TimeUnit.SECONDS);
         DelayQueue<Item> queue = new DelayQueue<>();
         queue.put(item1);
         queue.put(item2);
@@ -23,6 +23,10 @@ public class TestDelayedQueue {
         System.out.println("begin time:" + LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
         for (int i = 0; i < 3; i++) {
             Item take = queue.take();
+            if (take == null) {
+                System.out.println("none");
+                continue;
+            }
             System.out.format("name:{%s}, time:{%s}\n",take.name, LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME));
         }
     }

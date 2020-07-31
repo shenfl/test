@@ -2,6 +2,7 @@ package com.test.arithmetic;
 
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -123,6 +124,56 @@ public class TestArithmetic {
         }
     }
 
+    @Test
+    /**
+     * 力扣 31
+     */
+    public void nextPermutation(int[] nums) {
+        boolean flag = false;
+        for (int i = nums.length - 1; i > 0; i--) {
+            if (nums[i] > nums[i - 1]) {
+                int temp = i;
+                for (int j = i + 1; j < nums.length; j++) {
+                    if (nums[j] > nums[i - 1] && nums[j] < nums[temp]) {
+                        temp = j;
+                    }
+                }
+                swap(nums, i - 1, temp);
+                flag = true;
+                sort(nums, i);
+                break;
+            }
+        }
+        if (!flag) {
+            small(nums, 0);
+        }
+    }
+    private void sort(int[] nums, int i) {
+        int last = nums.length - 1;
+        while (i < last) {
+            for (int j = i; j < last; j++) {
+                if (nums[j] > nums[j + 1]) {
+                    swap(nums, j, j + 1);
+                }
+            }
+            last--;
+        }
+    }
+    private void small(int[] nums, int i) {
+        int last = nums.length - 1;
+        while (i < last) {
+            swap(nums, i, last);
+            i++;
+            last--;
+        }
+    }
+    private void swap(int[] nums, int i, int j) {
+        int temp;
+        temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
+
     /**
      * 拓扑排序
      * https://time.geekbang.org/column/article/76207
@@ -199,6 +250,33 @@ public class TestArithmetic {
             List<Integer> tmp = left;
             left = right;
             right = tmp;
+        }
+    }
+
+    @Test
+    /**
+     * A*
+     */
+    public void test6() {
+        LinkedList<Edge>[] adj = new LinkedList[5];
+        for (int i = 0; i < adj.length; i++) {
+            adj[i] = new LinkedList<>();
+        }
+        addNode(adj, 0, 1, 10);
+    }
+
+    private void addNode(LinkedList<Edge>[] adj, int from, int to, int capacity) {
+    }
+
+    static class Edge {
+        int from;
+        int capacity;
+        int reverse;
+
+        public Edge(int from, int capacity, int reverse) {
+            this.from = from;
+            this.capacity = capacity;
+            this.reverse = reverse;
         }
     }
 }

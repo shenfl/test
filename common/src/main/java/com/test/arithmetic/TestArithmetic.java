@@ -128,7 +128,8 @@ public class TestArithmetic {
     /**
      * 力扣 31
      */
-    public void nextPermutation(int[] nums) {
+    public void nextPermutation() {
+        int[] nums = new int[2];
         boolean flag = false;
         for (int i = nums.length - 1; i > 0; i--) {
             if (nums[i] > nums[i - 1]) {
@@ -251,6 +252,19 @@ public class TestArithmetic {
             left = right;
             right = tmp;
         }
+    }
+
+    private static final int X = 9;
+    private static final int[] k = new int[]{1, 4};
+    @Test
+    public void winner() {
+        boolean[] win = new boolean[X + 1];
+        for (int i = 1; i <= X; i++) {
+            for (int j = 0; j < k.length; j++) {
+                win[i] |= (k[j] <= i) && !win[i - k[j]];
+            }
+        }
+        System.out.println(win[X]);
     }
 
     @Test

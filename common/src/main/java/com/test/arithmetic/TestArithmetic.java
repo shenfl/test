@@ -254,9 +254,39 @@ public class TestArithmetic {
         }
     }
 
+    private static final int[][] way = new int[][]{
+            {1,3,5,9},
+            {2,1,3,4},
+            {5,2,6,7},
+            {6,8,4,3}
+    };
+    @Test
+    /**
+     * 王争动态规划：最小cost
+     */
+    public void minCost() {
+        int[][] cost = new int[4][4];
+        cost[0][0] = 1;
+        for (int i = 1; i < way.length; i++) {
+            cost[0][i] = cost[0][i - 1] + way[0][i];
+        }
+        for (int i = 1; i < way.length; i++) {
+            cost[i][0] = cost[i - 1][0] + way[i][0];
+        }
+        for (int i = 1; i < way.length; i++) {
+            for (int j = 1; j < way.length; j++) {
+                cost[i][j] = Math.min(cost[i - 1][j], cost[i][j - 1]) + way[i][j];
+            }
+        }
+        System.out.println(cost[way.length - 1][way.length - 1]);
+    }
+
     private static final int X = 9;
     private static final int[] k = new int[]{1, 4};
     @Test
+    /**
+     * 竞赛：必胜策略
+     */
     public void winner() {
         boolean[] win = new boolean[X + 1];
         for (int i = 1; i <= X; i++) {

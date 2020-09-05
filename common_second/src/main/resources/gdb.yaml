@@ -1,0 +1,10 @@
+hosts: [ gds-uf6a9065x404063h149950pub.graphdb.rds.aliyuncs.com ]
+port: 3734
+username: shenfl
+password: 968162wRw623319
+serializer: {
+  className: org.apache.tinkerpop.gremlin.driver.ser.GraphBinaryMessageSerializerV1,
+  config: {
+    serializeResultToString: false
+  }
+}

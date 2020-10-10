@@ -548,10 +548,32 @@ public class TestES {
 
 
         // script聚合
-        TermsAggregationBuilder aggregationBuilder = AggregationBuilders.terms("kk").script(new Script(ScriptType.STORED, "painless", "aa", new HashMap<>()));
-        SearchRequestBuilder searchRequestBuilder = client.prepareSearch("aa").addAggregation(aggregationBuilder);
-        SearchResponse searchResponse = searchRequestBuilder.get();
-        System.out.println(searchResponse.toString());
+//        TermsAggregationBuilder aggregationBuilder = AggregationBuilders.terms("kk").script(new Script(ScriptType.STORED, "painless", "aa", new HashMap<>()));
+//        SearchRequestBuilder searchRequestBuilder = client.prepareSearch("aa").addAggregation(aggregationBuilder);
+//        SearchResponse searchResponse = searchRequestBuilder.get();
+//        System.out.println(searchResponse.toString());
+
+
+        // es的客户端像dubbo一样，不会一个query的执行不会阻塞别的query，后执行的query可能会先返回
+        TermQueryBuilder termQuery = QueryBuilders.termQuery("contract_no", "243523234");
+        SearchRequestBuilder search = client.prepareSearch("scashier");
+        SearchResponse response = search.setQuery(termQuery).get();
+        System.out.println("hits: " + response.getHits());
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("inner " + System.currentTimeMillis());
+                SearchRequestBuilder search = client.prepareSearch("scashier");
+                WildcardQueryBuilder queryBuilder = QueryBuilders.wildcardQuery("contract_no", "*端发起调用后，同时通过RpcContext.getContext().getFuture()获取跟返回结果关联的Future对象，然后就可以开始处理其他任务；当需要这次异步调用的结果时，可后就可以开始处理其他任务；当需要这次异步调用的结果时，可*");
+                SearchResponse searchResponse = search.setQuery(queryBuilder).get();
+                System.out.println("inner hits: " + System.currentTimeMillis() + ": " + searchResponse.getHits());
+            }
+        }).start();
+        Thread.sleep(200);
+        System.out.println("outer " + System.currentTimeMillis());
+        search = client.prepareSearch("scashier");
+        response = search.setQuery(QueryBuilders.termQuery("contract_no", "25")).get();
+        System.out.println("outer hits: " + System.currentTimeMillis() + ": " + response.getHits());
 
 
         client.close();

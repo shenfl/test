@@ -37,8 +37,7 @@
         <dependency>
             <groupId>org.apache.hbase</groupId>
             <artifactId>hbase-server</artifactId>
-            <version>2.1.5</version>
-            <scope>provided</scope>
+            <version>2.1.10</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.glassfish.web</groupId>
@@ -49,8 +48,7 @@
         <dependency>
             <groupId>org.apache.hbase</groupId>
             <artifactId>hbase-client</artifactId>
-            <version>2.1.5</version>
-            <scope>provided</scope>
+            <version>2.1.10</version>
         </dependency>
         <dependency>
             <groupId>co.paralleluniverse</groupId>

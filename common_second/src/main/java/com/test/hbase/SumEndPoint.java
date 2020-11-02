@@ -30,8 +30,11 @@ import java.util.List;
  */
 public class SumEndPoint extends Sum.SumService implements Coprocessor, CoprocessorService {
 
-    private Logger LOGGER = LoggerFactory.getLogger(SumEndPoint.class);
+    private Logger log = LoggerFactory.getLogger(SumEndPoint.class);
     private RegionCoprocessorEnvironment env;
+
+    public SumEndPoint() {
+    }
 
     @Override
     public Service getService() {
@@ -40,7 +43,7 @@ public class SumEndPoint extends Sum.SumService implements Coprocessor, Coproces
 
     @Override
     public void start(CoprocessorEnvironment env) throws IOException {
-        LOGGER.warn("class: " + env.getClass().toString());
+        log.info("endpoint 启动:{}", env.toString());
         if (env instanceof RegionCoprocessorEnvironment) {
             this.env = (RegionCoprocessorEnvironment)env;
         } else {
@@ -51,6 +54,7 @@ public class SumEndPoint extends Sum.SumService implements Coprocessor, Coproces
     @Override
     public void stop(CoprocessorEnvironment env) throws IOException {
         // do nothing
+        log.info("endpoint 停止:{}", env.toString());
     }
 
     @Override
@@ -65,13 +69,13 @@ public class SumEndPoint extends Sum.SumService implements Coprocessor, Coproces
         try {
             RegionInfo regionInfo = env.getRegionInfo();
             if (regionInfo != null) {
-                LOGGER.warn(new String(regionInfo.getRegionName()));
+                log.warn(new String(regionInfo.getRegionName()));
             } else {
-                LOGGER.warn("region info is null");
+                log.warn("region info is null");
             }
             Region region = env.getRegion();
             if (region == null) {
-                LOGGER.warn("region is null");
+                log.warn("region is null");
             }
             scanner = env.getRegion().getScanner(scan);
             List<Cell> results = new ArrayList<>();

@@ -1,9 +1,6 @@
 package com.test.java;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.LinkedBlockingDeque;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 public class TestThread {
     public static void main(String[] args) {
@@ -19,7 +16,7 @@ public class TestThread {
                 public void run() {
                     System.out.println(finalI + " haha");
                     try {
-                        Thread.sleep(1000000);
+                        Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -27,5 +24,7 @@ public class TestThread {
                 }
             });
         }
+        executorService.shutdown();
+        System.out.println("over");
     }
 }

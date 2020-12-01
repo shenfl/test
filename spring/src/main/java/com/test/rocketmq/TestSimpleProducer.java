@@ -1,16 +1,21 @@
 package com.test.rocketmq;
 
+import org.apache.rocketmq.client.exception.MQBrokerException;
+import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
 import org.apache.rocketmq.client.producer.SendResult;
 import org.apache.rocketmq.common.message.Message;
 import org.apache.rocketmq.remoting.common.RemotingHelper;
+import org.apache.rocketmq.remoting.exception.RemotingException;
+
+import java.io.UnsupportedEncodingException;
 
 /**
  * http://rocketmq.apache.org/docs/simple-example/
  * @author shenfl
  */
-public class SyncProducer {
-    public static void main(String[] args) throws Exception {
+public class TestSimpleProducer {
+    public static void main(String[] args) throws MQClientException, RemotingException, InterruptedException, MQBrokerException, UnsupportedEncodingException {
         //Instantiate with a producer group name.
         DefaultMQProducer producer = new
                 DefaultMQProducer("shenfl");

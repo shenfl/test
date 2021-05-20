@@ -1,5 +1,7 @@
 package com.test.java;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -102,6 +104,39 @@ public class TestJava8 {
         System.out.println("anyMatch:"+b);
         b = list.stream().noneMatch(x->x.matches("a*"));
         System.out.println("noneMatch:"+b);
+
+        // 省略if else
+        Bean o1 = null;
+        Bean o2 = null;
+        int i = compareString(o1.s1, o2.s1,
+                () -> compareString(o1.s2, o2.s2,
+                        () -> compareString(o1.s3, o2.s3,
+                                () -> 0
+                        )
+                )
+        );
+        System.out.println(i);
+    }
+
+    //越小的排在约前面
+    public static int compareString(String object1, String object2, Supplier<Integer> support) {
+        if(object1 == object2) {
+            return support.get();
+        }
+        if(StringUtils.isBlank(object1)) {
+            return 1;
+        }
+        if(StringUtils.isBlank(object2)) {
+            return -1;
+        }
+        int compareResult = object1.compareTo(object2);
+        return compareResult != 0 ? compareResult : support.get();
+    }
+
+    static class Bean {
+        String s1;
+        String s2;
+        String s3;
     }
 
     static class Print {
